@@ -2,7 +2,10 @@ const CreateCluster = () => {
     return (
         <>
             Create a Cluster
-            <button> Upload </button>
+            <form method='POST' action='/image-upload' encType='multipart/form-data'>
+                <input type='file' name='image' />
+                <input type='submit' />  
+            </form>
         </>
     )
 }

@@ -27,10 +27,7 @@ express()
     // .delete("/api/delete-reservation/:id", deleteReservation)
 
     //Endpoints for Clusters mongoDB Collection
-    .get('/image-upload', getImage)
-
-    .post('/image-upload', postImage)
-
+  
     // Endpoint to Catch Unhandled Errors
     .get("*", (req, res) => {
         res.status(404).json({
