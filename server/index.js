@@ -7,7 +7,8 @@ const morgan = require("morgan");
 
 // Import the Needed Endpoint Handlers
 const {
- 
+    getImage,
+    postImage
 } = require("./handlers");
 
 express()
@@ -26,6 +27,9 @@ express()
     // .delete("/api/delete-reservation/:id", deleteReservation)
 
     //Endpoints for Clusters mongoDB Collection
+    .get('/image-upload', getImage)
+
+    .post('/image-upload', postImage)
 
     // Endpoint to Catch Unhandled Errors
     .get("*", (req, res) => {

@@ -11,6 +11,7 @@ import Landing from './landing/Landing';
 import Profile from './profile/Profile';
 import Browse from './browse/Browse';
 import Cluster from './cluster/Cluster';
+import CreateCluster from './create_cluster/CreateCluster';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path='/' element={<Landing />} />
         <Route path='/:username' element={<Profile />} />
         <Route path='/cluster/:id' element={<Cluster />}  />
+        <Route path='/create' element={<CreateCluster />} />
         <Route  path='/browse/:tags' element={<Browse />} />
       </Routes>
     </Router>
