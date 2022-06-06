@@ -9,7 +9,7 @@ import GlobalStyles from './GlobalStyles';
 import Header from './header/Header';
 import Landing from './landing/Landing';
 import Profile from './profile/Profile';
-import Browse from './browse/Browse';
+import Explore from './explore/Explore';
 import Cluster from './cluster/Cluster';
 import CreateCluster from './create_cluster/CreateCluster';
 
@@ -19,11 +19,11 @@ const App = () => {
       <GlobalStyles />
       <Header />
       <Routes> 
-        <Route path='/' element={<Landing />} />
+        <Route path='/' exact element={<Landing />} />
         <Route path='/:username' element={<Profile />} />
         <Route path='/cluster/:id' element={<Cluster />}  />
         <Route path='/create' element={<CreateCluster />} />
-        <Route  path='/browse/:tags' element={<Browse />} />
+        <Route  path='/explore/:tags' element={<Explore />} />
       </Routes>
     </Router>
   )

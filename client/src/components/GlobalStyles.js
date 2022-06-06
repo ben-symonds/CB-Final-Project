@@ -63,15 +63,20 @@ export default createGlobalStyle`
     label,
     button {
         font-family: var(--font-heading);
-        font-size: 32px;
-        text-align: center;
+        font-size: 15px;
+        background-color: #fff;
+        border: none;
+        cursor: pointer;
     }
     p,
     a,
     li,
     blockquote,
     input {
-    font-family: var(--font-body);
+        font-family: var(--font-body);
+        color: #000;
+        font-size: 15px;
+        text-decoration: none;
     }
 
     input {

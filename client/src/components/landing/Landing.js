@@ -11,10 +11,10 @@ const Landing = () => {
     const { user } = useContext(UserContext);
 
     useEffect(() => {
-        if(user !== undefined) {
+        if(user) {
             navigate(`/${user.displayName}`);
         }
-    }, [])
+    }, [user])
 
     return (
         <>

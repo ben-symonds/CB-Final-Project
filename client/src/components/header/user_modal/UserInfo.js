@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { UserContext } from '../contexts/UserContext';
+import { UserContext } from '../../contexts/UserContext';
 
 const UserInfo = () => {
 
@@ -8,7 +8,7 @@ const UserInfo = () => {
 
     return (
         <>
-           { user.displayName }
+            { user.displayName }
         </>
     )
 }
