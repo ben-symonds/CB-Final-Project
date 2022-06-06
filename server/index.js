@@ -6,7 +6,7 @@ const morgan = require('morgan');
 
 // Import the Needed Endpoint Handlers
 const {
-    // postUpload
+    postUser
 } = require('./handlers');
 
 express()
@@ -18,10 +18,10 @@ express()
     .use(express.static('public'))
 
     // Endpoints for Users mongoDB Collection
-    // .post('/api/upload', postUpload)  
+    .post('/post-user', postUser)
 
     //Endpoints for Clusters mongoDB Collection
-  
+  // .post('/api/upload', postUpload)  
     // Endpoint to Catch Unhandled Errors
     .get('*', (req, res) => {
         res.status(404).json({

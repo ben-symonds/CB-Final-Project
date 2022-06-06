@@ -19,7 +19,7 @@ const Header = () => {
                 <Link to='/explore/all'> explore </Link>
                 { !user && <UserModalButtons /> } 
                 { user && <Link to={`/${user.displayName}`}> my clusters</Link> }
-                { user && <button onClick={() => setOpenUserModal(true)}>  {user.displayName } </button> }
+                { user && <button onClick={() => setOpenUserModal(!openUserModal)}>  {user.displayName } </button> }
                 { openUserModal && <UserModal setOpenUserModal={setOpenUserModal}/> }
             </div>
         </HeaderShell>

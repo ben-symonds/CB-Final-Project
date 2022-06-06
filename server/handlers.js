@@ -1,4 +1,12 @@
-"use strict";
+'use-strict';
+
+const { MongoClient } = require('mongodb');
+require('dotenv').config();
+const { MONGO_URI } = process.env;
+const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+};
 
 // const postUpload = (req, res) => {
 //     if(req.files === null) {
@@ -17,6 +25,33 @@
 //     })
 // }
 
+const postUser = async (req, res) => {
+    
+    const client = new MongoClient(MONGO_URI, options);
+
+    const newUser = req.body;
+
+    try {
+
+        await client.connect();
+        
+        const db = client.db('Cluster');
+
+        const result = await db.collection('Users').insertOne(newUser);
+
+        result
+        ? res.status(200).json({status: 200, message: 'New User Added to Database'})
+
+        : res.status(400).json({status: 400, message: 'Could Not Add User to Database'});
+
+        client.close();
+    }
+    catch(error){
+        console.log(error.stack)
+    }
+
+}
+
 module.exports = {
-    // postUpload
+    postUser
 }

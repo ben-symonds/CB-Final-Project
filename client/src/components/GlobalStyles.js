@@ -80,10 +80,6 @@ export default createGlobalStyle`
     }
 
     input {
-        font-size: 24px;
-        height: 42px;
-        border: 2px solid var(--color-orange);
-        border-radius: 4px;
-        padding: 0 12px;
+        font-size: 12px;
     }
 `;

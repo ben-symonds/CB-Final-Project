@@ -19,10 +19,25 @@ const RegisterModal = ({setOpenRegisterModal}) => {
         try {
             const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
             await updateProfile(auth.currentUser, {displayName: registerUsername})
-            console.log(user);
+
+            const dbTestUser = { 
+                username: user.user.displayName,  
+                id: user.user.uid
+            }
+
+            fetch("/post-user", {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json",
+                    'Accept' : 'application/json',
+                },
+                body: JSON.stringify(dbTestUser)
+            })
+            
         } catch (err) {
             console.log(err.message);
         }
+
     }
 
     return (
