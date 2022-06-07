@@ -70,6 +70,7 @@ export default createGlobalStyle`
     }
     p,
     a,
+    span,
     li,
     blockquote,
     input {

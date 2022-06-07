@@ -15,11 +15,31 @@ const UserModal = ({setOpenUserModal}) => {
 
     return (
         <ModalShell>
-            <button onClick={() => setOpenUserModal(false)}> X </button>
-            <Link to={`/${user.displayName}`}> My Clusters </Link>
-            <button onClick={() => setOpenUserInfoModal(!openUserInfoModal) }> Update My Info </button>
-            {openUserInfoModal && <UserInfoModal setOpenUserInfoModal={setOpenUserInfoModal} />}
+            <ExitButton 
+                onClick={() => {
+                    setOpenUserModal(false);
+                }}
+            > 
+                X 
+            </ExitButton>
+            <Divider />
+            <StyledLink to={`/${user.displayName}`}> my clusters </StyledLink>
             <Logout />
+            <UpdateButton 
+                onClick={() => {
+                    setOpenUserInfoModal(!openUserInfoModal)
+                }}
+                style={
+                    openUserInfoModal ? 
+                        {backgroundColor: '#000',
+                        color: '#fff'}
+                        :{backgroundColor: '#fff',
+                        color: '#000'}
+                    }
+            > 
+                update login info
+            </UpdateButton>
+            {openUserInfoModal && <UserInfoModal setOpenUserInfoModal={setOpenUserInfoModal} />}
         </ModalShell>
     )
 }
@@ -28,10 +48,29 @@ const ModalShell = styled.div `
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 15vw;
+    min-width: 300px;
     border: 1px black solid;
     position: absolute;
-    top: 50px;
+    top: 35px;
+`
+const ExitButton = styled.button `
+    width: 20px;
+    margin-left: 1px;
+`
 
+const Divider = styled.div `
+    width: 100%;
+    border-bottom: 1px solid black;
+`
+
+const StyledLink = styled(Link)`
+    color: purple;
+    width: 76px;
+    margin: 5px;
+`
+const UpdateButton = styled.button `
+    width: 123px;
 `
 
 export default UserModal;

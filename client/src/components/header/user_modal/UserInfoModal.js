@@ -1,6 +1,8 @@
 import { useState, useContext } from 'react';
 import { updateEmail, updateProfile, deleteUser } from 'firebase/auth';
 import { auth } from '../../../firebase-config';
+import styled from 'styled-components';
+
 import { UserContext } from '../../contexts/UserContext';
 
 const UserInfoModal = ({setOpenUserInfoModal}) => {
@@ -32,11 +34,13 @@ const UserInfoModal = ({setOpenUserInfoModal}) => {
     console.log(user);
 
     return (
-        <>
-            <button onClick={() => setOpenUserInfoModal(false)} > X </button>
+        <ModalShell>
+            <Divider />
+            <ExitButton onClick={() => setOpenUserInfoModal(false)} > X </ExitButton>
+            <Divider />
             <form onSubmit={handleUpdate} >
                 <div> 
-                    <label htmlFor='username-input'> Username </label>
+                    <label htmlFor='username-input'> username </label>
                     <input 
                         className='username-input' 
                         defaultValue={newUsername} 
@@ -48,7 +52,7 @@ const UserInfoModal = ({setOpenUserInfoModal}) => {
                     />
                 </div>
                 <div> 
-                    <label htmlFor='email-input'> Email </label>
+                    <label htmlFor='email-input'> email </label>
                     <input 
                         className='email-input' 
                         defaultValue={newEmail} 
@@ -61,13 +65,46 @@ const UserInfoModal = ({setOpenUserInfoModal}) => {
                 </div>
                 <div> 
                     <input type='submit' />
-                    <button onClick={() => setOpenUserInfoModal(false)} > Cancel </button>
                     <button onClick={handleDelete}> Delete Account </button>
                 </div>
 
             </form>
-        </>
+            <Divider />
+        </ModalShell>
     )
 }
+
+const ModalShell = styled.div `
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 15vw;
+    min-width: 298px;
+
+    input {
+        margin: 3px 5px;
+        border: black 1px solid;
+        padding: 3px;
+    }
+
+    form {
+
+        margin-top: 5px;
+
+        div {
+            margin-left: 7px;
+        }
+    }
+
+`
+const ExitButton = styled.button `
+    width: 20px;
+    margin-left: 1px;
+`
+
+const Divider = styled.div `
+    width: 100%;
+    border-bottom: 1px solid black;
+`
 
 export default UserInfoModal;

@@ -10,16 +10,41 @@ const UserModalButtons = () => {
 
     return (
         <>
-            <button onClick={() => {
-                setOpenSignInModal(true);
-            }}>  
-                Sign In 
+            <button 
+            
+                onClick={() => {
+                    setOpenRegisterModal(false);
+                    setOpenSignInModal(!openSignInModal);
+                }}
+
+                style={
+                    openSignInModal ? 
+                    {backgroundColor: '#000',
+                    color: '#fff'}
+                    :{backgroundColor: '#fff',
+                    color: '#000'}
+                }
+            >
+
+                sign in 
             </button>
             {openSignInModal && <SignInModal setOpenSignInModal={setOpenSignInModal} />}
-            <button onClick={() => {
-                setOpenRegisterModal(true);
-            }}>  
-                Create an Account 
+            <button 
+            
+                onClick={() => { 
+                    setOpenSignInModal(false);
+                    setOpenRegisterModal(!openRegisterModal);
+                }}
+
+                style={
+                    openRegisterModal ? 
+                    {backgroundColor: '#000',
+                    color: '#fff'}
+                    :{backgroundColor: '#fff',
+                    color: '#000'}
+                }
+            >  
+                create an account 
             </button>
             {openRegisterModal && <RegisterModal setOpenRegisterModal={setOpenRegisterModal} />}
         </>

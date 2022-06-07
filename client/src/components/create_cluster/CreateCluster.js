@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import styled from 'styled-components';
 
 const CreateCluster = () => {
 
@@ -28,14 +29,37 @@ const CreateCluster = () => {
     // }
 
     return ( 
-        <>
-            Create a Cluster
+        <FormShell>
+            <h3> New Cluster </h3>
+            <form> 
+                <div> 
+                    <label htmlFor='title'> Title </label>
+                    <input type='text' className='title' />
+                </div>
+                <div> 
+                    <label htmlFor='description'> Description </label>
+                    <textarea className='description' />
+                </div>
+                <div>
+                    <label htmlFor='visibility' />
+                    <input type='radio' value='public' className='visibility' />
+                    <input type='radio' value='private' className='visibility' />
+                </div>
+                <input type='submit' value='create cluster' />
+            </form>
             {/* <form onSubmit={handleSubmit}> 
                 <input type='file' onChange={handleChange} />
                 <input type='submit' />
             </form> */}
-        </>
+        </FormShell>
     )
 }
+
+const FormShell = styled.div `
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
 
 export default CreateCluster; 

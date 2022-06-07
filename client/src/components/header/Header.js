@@ -15,13 +15,26 @@ const Header = () => {
     return (
         <HeaderShell>
             <div> logo </div>
-            <div>
+            <ButtonWrapper>
                 <Link to='/explore/all'> explore </Link>
                 { !user && <UserModalButtons /> } 
-                { user && <Link to={`/${user.displayName}`}> my clusters</Link> }
-                { user && <button onClick={() => setOpenUserModal(!openUserModal)}>  {user.displayName } </button> }
+                { user && <Link to={`/${user.displayName}`}>my clusters</Link> }
+                { user && <button 
+                    onClick={() => {
+                        setOpenUserModal(!openUserModal)
+                    }}
+                    style={
+                        openUserModal ? 
+                            {backgroundColor: '#000',
+                            color: '#fff'}
+                            :{backgroundColor: '#fff',
+                            color: '#000'}
+                        }
+                    >
+                        {user.displayName } 
+                    </button> }
                 { openUserModal && <UserModal setOpenUserModal={setOpenUserModal}/> }
-            </div>
+            </ButtonWrapper>
         </HeaderShell>
     )
 }
@@ -31,14 +44,14 @@ const HeaderShell = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+`
 
-    div {
-        width: 15vw;
-        min-width: 300px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+const ButtonWrapper = styled.div `
+    width: 15vw;
+    min-width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 `
 
 export default Header;
