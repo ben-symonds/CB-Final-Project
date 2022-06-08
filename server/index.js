@@ -8,7 +8,9 @@ const morgan = require('morgan');
 const {
     postUser,
     postCluster,
-    getCluster
+    getCluster,
+    postClusterItem,
+    getUserClusters
 } = require('./handlers');
 
 express()
@@ -30,6 +32,12 @@ express()
   
     //this endpoint retrieves a cluster based on its id
     .get('/get-cluster/:id', getCluster)
+
+    //this endpoint adds a a new cluster item to an existing cluster
+    .post('/post-cluster-item/:id', postClusterItem)
+
+    //this endpoint retrieves all cluster belonging to current user
+    .get('/get-user-clusters/:id', getUserClusters) 
 
     // Endpoint to Catch Unhandled Errors
     .get('*', (req, res) => {

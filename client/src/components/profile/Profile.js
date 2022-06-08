@@ -1,17 +1,43 @@
-import { useState } from 'react';
-import { Link } from "react-router-dom";
-import ReactPlayer from 'react-player';
+import { useEffect, useContext, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Profile = () => {
+import SmallCluster from '../reusable/SmallCluster';
 
-    const [ url, setUrl ] = useState(null);
+import { UserContext } from '../contexts/UserContext';
+
+const Profile = () => {
+    
+    const { user } = useContext(UserContext);
+
+    const { id } = useParams();
+
+    const [ clusters, setClusters ] = useState(null);
+    const [ loading, setLoading ] = useState(true);
+
+    useEffect(()=> {
+        if(user.uid === id) {
+            fetch(`/get-user-clusters/${id}`)
+            .then(res => res.json())
+            .then(data => {
+                setClusters(data.data);
+                console.log(data.data)
+                setLoading(false);
+            })
+        }
+    }, [user])
     
     return (
         <Wrapper>
-            <Link to='/create'> + </Link>
-                <input type='url' onChange={e =>  setUrl(e.target.value) } />
-                {url && <ReactPlayer url={url} />}
+            {loading ?
+            <div> loading </div> 
+            :<>
+                <Link to='/create'> + </Link>
+                {clusters.map((cluster) => {
+                    return <SmallCluster clusterId={cluster.clusterId} title={cluster.title}/>
+                })}
+            </>
+            }
         </Wrapper>
     )
 }
@@ -19,9 +45,7 @@ const Profile = () => {
 const Wrapper = styled.div `
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    background-color: gray;
     height: 80vh;
 
     input {

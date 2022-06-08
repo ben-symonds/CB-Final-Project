@@ -1,4 +1,4 @@
-const AddClusterImage = () => {
+const AddImage = () => {
     return (
         <>
             Add Cluster Image
@@ -6,4 +6,4 @@ const AddClusterImage = () => {
     )
 }
 
-export default AddClusterImage;
+export default AddImage;

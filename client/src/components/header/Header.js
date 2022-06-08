@@ -18,7 +18,7 @@ const Header = () => {
             <ButtonWrapper>
                 <Link to='/explore/all'> explore </Link>
                 { !user && <UserModalButtons /> } 
-                { user && <Link to={`/${user.displayName}`}>my clusters</Link> }
+                { user && <Link to={`/user/${user.uid}`}>my clusters</Link> }
                 { user && <button 
                     onClick={() => {
                         setOpenUserModal(!openUserModal)

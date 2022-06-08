@@ -12,7 +12,7 @@ const Landing = () => {
 
     useEffect(() => {
         if(user) {
-            navigate(`/${user.displayName}`);
+            navigate(`/user/${user.uid}`);
         }
     }, [user])
 

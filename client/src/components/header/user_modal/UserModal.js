@@ -6,7 +6,6 @@ import { UserContext } from '../../contexts/UserContext';
 import Logout from './Logout';
 import UserInfoModal from './UserInfoModal';
 
-
 const UserModal = ({setOpenUserModal}) => {
 
     const { user } = useContext(UserContext);
@@ -23,7 +22,7 @@ const UserModal = ({setOpenUserModal}) => {
                 X 
             </ExitButton>
             <Divider />
-            <StyledLink to={`/${user.displayName}`}> my clusters </StyledLink>
+            <StyledLink to={`/user/${user.uid}`}> my clusters </StyledLink>
             <Logout />
             <UpdateButton 
                 onClick={() => {

@@ -43,7 +43,7 @@ const CreateCluster = () => {
         })
 
         //navigates to edit cluster page to begin adding items to cluster
-        navigate(`/edit/${newCluster.clusterId}`)
+        navigate(`/cluster/${newCluster.clusterId}`)
 
     }
 

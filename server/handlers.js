@@ -8,24 +8,6 @@ const options = {
     useUnifiedTopology: true,
 };
 
-// const postUpload = (req, res) => {
-//     if(req.files === null) {
-//         return res.status(400).json({status: 400,  message: 'No file uploaded'})
-//     }
-
-//     const file = req.files.file;
-
-//     file.mv(`../client/public/uploads/${file.name}`, err => {
-//         if(err) {
-//             console.error(err);
-//             return res.status(500).json({status: 500,  message: 'Path does not exist'})
-//         }
-
-//         res.status(200).json({status: 200, data:file.name,  message: 'Path does not exist'})
-//     })
-// }
-
-
 //adds new user to 'Users' collection in DB 
 const postUser = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options);
@@ -70,12 +52,11 @@ const postCluster = async (req, res) => {
     }
 }
 
+//retrives cluster object from 'Clusters' collection in DB
 const getCluster = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options);
 
-    const id = (req.params.id)
-
-    console.log(id);
+    const id = (req.params.id);
 
     try {
         await client.connect();
@@ -93,8 +74,57 @@ const getCluster = async (req, res) => {
     }
 }
 
+const postClusterItem = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+
+    const newClusterItem = req.body;
+    
+    const id = (req.params.id);
+
+    try {
+        await client.connect();
+        const db = client.db('Cluster');
+        const result = await db.collection('Clusters').updateOne(
+            {clusterId: id},
+            { $push: { items: newClusterItem}}
+        )
+        result
+        ? res.status(200).json({status: 200, message: 'New Item Added to Cluster'})
+        : res.status(400).json({status: 400, message: 'Could Not Add Item to Cluster'});
+
+        client.close();
+    }
+    catch(error){
+        console.log(error.stack)
+    }
+}
+
+const getUserClusters = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+
+    const id = (req.params.id);
+
+    try {
+        
+        await client.connect();
+        const db = client.db('Cluster');
+        const result = await db.collection('Clusters').find({userId: id}).toArray();
+
+        result
+        ? res.status(200).json({status: 200, data: result,  message: 'Clusters Retrived'})
+        : res.status(400).json({status: 400, message: 'Clusters Not Found'});
+
+        client.close();
+    }
+    catch(error){
+        console.log(error.stack)
+    }
+} 
+
 module.exports = {
     postUser,
     postCluster,
-    getCluster
+    getCluster,
+    postClusterItem,
+    getUserClusters
 }
