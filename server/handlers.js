@@ -121,10 +121,60 @@ const getUserClusters = async (req, res) => {
     }
 } 
 
+const deleteClusterItem = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+    
+    const clusterId = (req.params.clusterId);
+
+    const itemId = (req.params.itemId);
+
+    try {
+        await client.connect();
+        const db = client.db('Cluster');
+        const result = await db.collection('Clusters').updateOne(
+            {clusterId: clusterId},
+            {$pull: {items: {itemId: itemId}}}
+        )
+
+        result
+        ? res.status(200).json({status: 200, message: 'Deleted Item From Cluster'})
+        : res.status(400).json({status: 400, message: 'Could Not Delete Item From Cluster'});
+
+        client.close();
+    }
+    catch(error){
+        console.log(error.stack)
+    }
+}
+
+const deleteCluster = async (req, res) => {
+
+    const client = new MongoClient(MONGO_URI, options);
+    
+    const id = (req.params.id);
+
+    try {
+        await client.connect();
+        const db = client.db('Cluster');
+        const result = await db.collection('Clusters').deleteOne({clusterId: id})
+
+        result
+        ? res.status(200).json({status: 200, message: 'Deleted Item From Cluster'})
+        : res.status(400).json({status: 400, message: 'Could Not Delete Item From Cluster'});
+
+        client.close();
+    }
+    catch(error){
+        console.log(error.stack)
+    }
+}
+
 module.exports = {
     postUser,
     postCluster,
     getCluster,
     postClusterItem,
-    getUserClusters
+    getUserClusters,
+    deleteClusterItem,
+    deleteCluster
 }

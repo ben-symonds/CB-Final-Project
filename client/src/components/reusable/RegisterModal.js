@@ -73,7 +73,7 @@ const RegisterModal = ({setOpenRegisterModal}) => {
                     <input 
                         placeholder='Password' 
                         required
-                        type='text' 
+                        type='password' 
                         onChange={e => {
                             setRegisterPassword(e.target.value);
                         }} 

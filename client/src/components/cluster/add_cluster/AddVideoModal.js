@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 //uuid is used to assign a unique id to the cluster
@@ -6,8 +6,11 @@ import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import moment from 'moment';
 
+import  { ClusterContext } from '../../contexts/ClusterContext';
 
 const AddVideoModal = () => {
+
+    const { setUpdate, setOpenAddClusterItemModal  } = useContext(ClusterContext);
 
     //grabs cluster id from url 
     const { id } = useParams();
@@ -34,6 +37,9 @@ const AddVideoModal = () => {
             },
             body: JSON.stringify(newClusterItem)
         })
+
+        setUpdate(true);
+        setOpenAddClusterItemModal(false);
     }
 
     return(

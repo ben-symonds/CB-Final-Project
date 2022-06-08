@@ -4,12 +4,13 @@ import styled from 'styled-components';
 
 import { auth } from '../../../firebase-config';
 
-const Logout = () => {
+const Logout = ({setOpenUserModal}) => {
 
     const navigate = useNavigate();
 
     const handleLogout = async () => {
         await signOut(auth);
+        setOpenUserModal(false);
         navigate('/');
 
     }

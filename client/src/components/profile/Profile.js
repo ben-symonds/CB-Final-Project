@@ -16,14 +16,15 @@ const Profile = () => {
     const [ loading, setLoading ] = useState(true);
 
     useEffect(()=> {
-        if(user.uid === id) {
-            fetch(`/get-user-clusters/${id}`)
-            .then(res => res.json())
-            .then(data => {
-                setClusters(data.data);
-                console.log(data.data)
-                setLoading(false);
-            })
+        if(user){
+            if(user.uid === id) {
+                fetch(`/get-user-clusters/${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    setClusters(data.data);
+                    setLoading(false);
+                })
+            }
         }
     }, [user])
     
@@ -34,7 +35,7 @@ const Profile = () => {
             :<>
                 <Link to='/create'> + </Link>
                 {clusters.map((cluster) => {
-                    return <SmallCluster clusterId={cluster.clusterId} title={cluster.title}/>
+                    return <SmallCluster clusterId={cluster.clusterId} title={cluster.title} key={cluster.clusterId}/>
                 })}
             </>
             }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 //uuid is used to assign a unique id to the cluster
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
+import moment from 'moment';
 
 import { UserContext } from '../contexts/UserContext';
 
@@ -14,6 +15,7 @@ const CreateCluster = () => {
 
     //state variables storing form data
     const [ title, setTitle ] = useState(null);
+    const [tags, setTags ] = useState([]);
     const [ description, setDescription ] = useState(null);
     const [ publicCluster, setPublicCluster ] = useState(true);
     const [ privateCluster, setPrivateCluster ] = useState(false);
@@ -23,6 +25,7 @@ const CreateCluster = () => {
         e.preventDefault();
         //creates a  cluster object skeleton with some identifiers
         const newCluster = {
+            datePublished: moment().format('MMMM Do YYYY, h:mm a'),
             description: description,
             userId: user.uid,
             clusterId: uuidv4(),
@@ -50,7 +53,7 @@ const CreateCluster = () => {
     return ( 
         <FormShell>
             <h3> new cluster </h3>
-
+            
             <form onSubmit={handleSubmit}> 
                 <div> 
                     <label htmlFor='title'> title </label>

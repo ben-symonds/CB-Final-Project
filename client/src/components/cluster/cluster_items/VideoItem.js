@@ -1,9 +1,12 @@
 import ReactPlayer from 'react-player';
 import styled from 'styled-components';
 
-const VideoItem = ({url, description, date, id}) => {
+import DeleteClusterItem from './DeleteClusterItem'
+
+const VideoItem = ({url, description, date, itemId, belongsToCurrentUser}) => {
     return (
         <VideoItemShell>
+            {belongsToCurrentUser && <DeleteClusterItem itemId={itemId} /> }
             <div> {date} </div>
             <ReactPlayer url={url} />
             <div> { description } </div>

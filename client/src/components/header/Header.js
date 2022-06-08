@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 
 import { UserContext } from '../contexts/UserContext';
@@ -8,17 +8,29 @@ import UserModal from './user_modal/UserModal';
 
 const Header = () => {
 
+    const navigate = useNavigate();
+
     const { user } = useContext(UserContext);
 
     const [ openUserModal, setOpenUserModal ] = useState(false);
+
+    const handleExploreOnClick = () => {
+        setOpenUserModal(false)
+        navigate('/explore/all')
+    }
+
+    const handleProfileOnClick = () => {
+        setOpenUserModal(false);
+        navigate(`/user/${user.uid}`)
+    }
 
     return (
         <HeaderShell>
             <div> logo </div>
             <ButtonWrapper>
-                <Link to='/explore/all'> explore </Link>
+                <button onClick={handleExploreOnClick}> explore </button>
                 { !user && <UserModalButtons /> } 
-                { user && <Link to={`/user/${user.uid}`}>my clusters</Link> }
+                { user && <button onClick={handleProfileOnClick}> my clusters </button>}
                 { user && <button 
                     onClick={() => {
                         setOpenUserModal(!openUserModal)

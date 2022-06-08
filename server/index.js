@@ -10,7 +10,9 @@ const {
     postCluster,
     getCluster,
     postClusterItem,
-    getUserClusters
+    getUserClusters,
+    deleteClusterItem,
+    deleteCluster
 } = require('./handlers');
 
 express()
@@ -38,6 +40,12 @@ express()
 
     //this endpoint retrieves all cluster belonging to current user
     .get('/get-user-clusters/:id', getUserClusters) 
+
+    //this endpoint deletes a single cluster item based on its id
+    .delete('/delete-cluster-item/:clusterId/:itemId', deleteClusterItem)
+
+    //this endpoint deletes a single cluster based on its id
+    .delete('/delete-cluster/:id', deleteCluster)
 
     // Endpoint to Catch Unhandled Errors
     .get('*', (req, res) => {

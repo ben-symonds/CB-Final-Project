@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 
+import  { ClusterContext } from '../../contexts/ClusterContext';
+
 const AddTextModal = () => {
+
+    const { setUpdate, setOpenAddClusterItemModal  } = useContext(ClusterContext);
 
     const { id } = useParams();
 
@@ -27,6 +31,9 @@ const AddTextModal = () => {
             },
             body: JSON.stringify(newClusterItem)
         })
+
+        setUpdate(true);
+        setOpenAddClusterItemModal(false);
     }
 
     return (

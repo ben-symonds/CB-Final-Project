@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { UserContext } from '../../contexts/UserContext';
 
-const UserInfoModal = ({setOpenUserInfoModal}) => {
+const UserInfoModal = ({setOpenUserInfoModal, setOpenUserModal}) => {
 
     const { user } = useContext(UserContext);
 
@@ -18,6 +18,7 @@ const UserInfoModal = ({setOpenUserInfoModal}) => {
         try {
             await updateProfile(auth.currentUser, {displayName: newUsername});
             await updateEmail(auth.currentUser, newEmail);
+            setOpenUserModal(false);
         } catch (err) {
             console.log(err.message);
         }
@@ -26,12 +27,11 @@ const UserInfoModal = ({setOpenUserInfoModal}) => {
     const handleDelete = async () => {
         try {
             await deleteUser(user);
+            setOpenUserModal(false);
         } catch (err) {
             console.log(err.message);
         }
     }
-
-    console.log(user);
 
     return (
         <ModalShell>

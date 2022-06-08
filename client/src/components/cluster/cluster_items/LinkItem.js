@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 
-const LinkItem = ({url, description, date, id}) => {
+import DeleteClusterItem from './DeleteClusterItem'
+
+const LinkItem = ({url, description, date, itemId, belongsToCurrentUser}) => {
     return (
         <LinkItemShell>
+            {belongsToCurrentUser && <DeleteClusterItem itemId={itemId} /> }
             <div> {date} </div>
             {description && <div> { description } </div>}
             <a href={url}> {url} </a> 

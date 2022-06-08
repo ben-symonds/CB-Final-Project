@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { UserContext } from '../../contexts/UserContext';
@@ -8,9 +8,16 @@ import UserInfoModal from './UserInfoModal';
 
 const UserModal = ({setOpenUserModal}) => {
 
+    const navigate = useNavigate();
+
     const { user } = useContext(UserContext);
     
     const [ openUserInfoModal, setOpenUserInfoModal ] = useState(false);
+
+    const handleProfileOnClick = () => {
+        setOpenUserModal(false);
+        navigate(`/user/${user.uid}`)
+    }
 
     return (
         <ModalShell>
@@ -22,8 +29,8 @@ const UserModal = ({setOpenUserModal}) => {
                 X 
             </ExitButton>
             <Divider />
-            <StyledLink to={`/user/${user.uid}`}> my clusters </StyledLink>
-            <Logout />
+            <ProfileButton onClick={handleProfileOnClick}> my clusters </ProfileButton>
+            <Logout setOpenUserModal={setOpenUserModal} />
             <UpdateButton 
                 onClick={() => {
                     setOpenUserInfoModal(!openUserInfoModal)
@@ -38,7 +45,7 @@ const UserModal = ({setOpenUserModal}) => {
             > 
                 update login info
             </UpdateButton>
-            {openUserInfoModal && <UserInfoModal setOpenUserInfoModal={setOpenUserInfoModal} />}
+            {openUserInfoModal && <UserInfoModal setOpenUserInfoModal={setOpenUserInfoModal} setOpenUserModal={setOpenUserModal} />}
         </ModalShell>
     )
 }
@@ -63,10 +70,9 @@ const Divider = styled.div `
     border-bottom: 1px solid black;
 `
 
-const StyledLink = styled(Link)`
+const ProfileButton = styled.button`
     color: purple;
-    width: 76px;
-    margin: 5px;
+    width: 88px;
 `
 const UpdateButton = styled.button `
     width: 123px;

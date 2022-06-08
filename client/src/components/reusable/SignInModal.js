@@ -55,7 +55,7 @@ const SignInModal = ({setOpenSignInModal}) => {
                     <input 
                         placeholder='Password' 
                         required
-                        type='text' 
+                        type='password' 
                         onChange={e => {
                             setLoginPassword(e.target.value);
                         }} 

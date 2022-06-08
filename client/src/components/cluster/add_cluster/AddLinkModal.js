@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 import moment from 'moment';
 
+
+import  { ClusterContext } from '../../contexts/ClusterContext';
+
 const AddLinkModal = () => {
 
+    const { setUpdate, setOpenAddClusterItemModal  } = useContext(ClusterContext);
 
-    console.log(moment().format('YYYYMMDD'));
      //grabs cluster id from url 
     const { id } = useParams();
 
@@ -33,6 +36,9 @@ const AddLinkModal = () => {
             },
             body: JSON.stringify(newClusterItem)
         })
+        setUpdate(true);
+        setOpenAddClusterItemModal(false);
+
     }
     return (
         <StyledForm onSubmit={handleSubmit}>

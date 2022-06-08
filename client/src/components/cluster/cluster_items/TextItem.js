@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
-const TextItem = ({id, text, date}) => {
+import DeleteClusterItem from './DeleteClusterItem'
+
+const TextItem = ({text, date, itemId, belongsToCurrentUser}) => {
     return (
         <TextItemShell>
-            {/* <Delete />  */}
+            {belongsToCurrentUser && <DeleteClusterItem itemId={itemId} /> }
             <div> {date} </div>
             <div> {text} </div>
         </TextItemShell>
