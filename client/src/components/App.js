@@ -24,7 +24,7 @@ const App = () => {
         <Route path='/user/:id' element={<Profile />} />
         <Route path='/cluster/:id' element={<Cluster />}  />
         <Route path='/create' element={<CreateCluster />} />
-        <Route  path='/explore/:tags' element={<Explore />} />
+        <Route  path='/explore' element={<Explore />} />
       </Routes>
     </Router>
   )

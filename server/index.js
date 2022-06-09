@@ -12,7 +12,10 @@ const {
     postClusterItem,
     getUserClusters,
     deleteClusterItem,
-    deleteCluster
+    deleteCluster,
+    getPublicClusters,
+    getPublicClustersByTag,
+    getFeaturedTags
 } = require('./handlers');
 
 express()
@@ -46,6 +49,15 @@ express()
 
     //this endpoint deletes a single cluster based on its id
     .delete('/delete-cluster/:id', deleteCluster)
+
+    //this endpoint retrieves all public clusters
+    .get('/get-public-clusters', getPublicClusters)
+
+    //this endpoint retrieves public clusters by tag
+    .get('/get-public-clusters/:tag', getPublicClustersByTag)
+
+    //this endpoint retrieves 5 random tags from public clusters
+    .get('/get-featured-tags', getFeaturedTags)
 
     // Endpoint to Catch Unhandled Errors
     .get('*', (req, res) => {

@@ -169,6 +169,82 @@ const deleteCluster = async (req, res) => {
     }
 }
 
+const getPublicClusters = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+
+    try {
+        
+        await client.connect();
+        const db = client.db('Cluster');
+        const result = await db.collection('Clusters').find({visibility: 'public'}).toArray();
+
+        result
+        ? res.status(200).json({status: 200, data: result,  message: 'Public Clusters Retrived'})
+        : res.status(400).json({status: 400, message: 'Public Clusters Not Found'});
+
+        client.close();
+    }
+    catch(error){
+        console.log(error.stack)
+    }
+} 
+
+const getPublicClustersByTag = async (req, res) => {
+
+    const tag = req.params.tag;
+
+    console.log(tag);
+
+    const client = new MongoClient(MONGO_URI, options);
+
+    try {
+        
+        await client.connect();
+        const db = client.db('Cluster');
+        const result = await db.collection('Clusters').find({visibility: 'public', tags: tag}).toArray();
+
+        result.length
+        ? res.status(200).json({status: 200, data: result,  message: 'Public Clusters Retrived By Tag'})
+        : res.status(400).json({status: 400, message: `No public clusters were found with the tag ${tag}`});
+
+        client.close();
+    }
+    catch(error){
+        console.log(error.stack)
+    }
+}
+
+const getFeaturedTags = async (req,res) => {
+
+    const client = new MongoClient(MONGO_URI, options);
+
+    try {
+        
+        await client.connect();
+        const db = client.db('Cluster');
+        const result = await db.collection('Clusters').find({visibility: 'public'}).toArray();
+
+        let tagsArray = [];
+        result.forEach(item => {
+            tagsArray = tagsArray.concat(item.tags);
+        })
+
+        const shuffledArray = tagsArray.sort(() => 0.5 - Math.random());
+
+        const featuredArray = shuffledArray.slice(0, 5);
+
+        result.length
+        ? res.status(200).json({status: 200, data: featuredArray,  message: 'Featured Tags Retrieved'})
+        : res.status(400).json({status: 400, message: 'Not Enough Tags in Public Clusters'});
+
+        client.close();
+    }
+    catch(error){
+        console.log(error.stack)
+    }
+}
+
+
 module.exports = {
     postUser,
     postCluster,
@@ -176,5 +252,8 @@ module.exports = {
     postClusterItem,
     getUserClusters,
     deleteClusterItem,
-    deleteCluster
+    deleteCluster,
+    getPublicClusters,
+    getPublicClustersByTag,
+    getFeaturedTags
 }

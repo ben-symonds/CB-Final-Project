@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 
 import { UserContext } from '../contexts/UserContext';
+import AddTags from '../reusable/AddTags';
 
 const CreateCluster = () => {
 
@@ -15,7 +16,7 @@ const CreateCluster = () => {
 
     //state variables storing form data
     const [ title, setTitle ] = useState(null);
-    const [tags, setTags ] = useState([]);
+    const [ tags, setTags ] = useState([]);
     const [ description, setDescription ] = useState(null);
     const [ publicCluster, setPublicCluster ] = useState(true);
     const [ privateCluster, setPrivateCluster ] = useState(false);
@@ -30,7 +31,7 @@ const CreateCluster = () => {
             userId: user.uid,
             clusterId: uuidv4(),
             items: [],
-            tags:[],
+            tags: tags,
             title: title,
             visibility: publicCluster ? 'public' : 'private',
         }
@@ -53,7 +54,7 @@ const CreateCluster = () => {
     return ( 
         <FormShell>
             <h3> new cluster </h3>
-            
+            <AddTags tags={tags} setTags={setTags}/> 
             <form onSubmit={handleSubmit}> 
                 <div> 
                     <label htmlFor='title'> title </label>

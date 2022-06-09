@@ -35,7 +35,7 @@ const Profile = () => {
             :<>
                 <Link to='/create'> + </Link>
                 {clusters.map((cluster) => {
-                    return <SmallCluster clusterId={cluster.clusterId} title={cluster.title} key={cluster.clusterId}/>
+                    return <SmallCluster clusterId={cluster.clusterId} title={cluster.title} key={cluster.clusterId} tags={cluster.tags}/>
                 })}
             </>
             }

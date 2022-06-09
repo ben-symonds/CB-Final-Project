@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const SmallCluster = ({clusterId, title }) => {
+import Tag from './Tag';
+
+const SmallCluster = ({clusterId, title, tags }) => {
     return (
-        <SmallClusterShell to={`/cluster/${clusterId}`}>
-            {title}
-        </SmallClusterShell>
+        <>
+            {/* {tags.length > 0 && tags.map(tag => <Tag tagName={tag} key={tag} />)} */}
+            <SmallClusterShell to={`/cluster/${clusterId}`}>
+                {title}
+            </SmallClusterShell>
+        </>
     )
 }
 

@@ -16,7 +16,7 @@ const Header = () => {
 
     const handleExploreOnClick = () => {
         setOpenUserModal(false)
-        navigate('/explore/all')
+        navigate('/explore')
     }
 
     const handleProfileOnClick = () => {
