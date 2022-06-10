@@ -40,36 +40,64 @@ const AddLinkModal = () => {
         setOpenAddClusterItemModal(false);
 
     }
+
+    
     return (
         <StyledForm onSubmit={handleSubmit}>
             <div> 
-                <label htmlFor='link'> link url </label>
-                <input 
+                <label htmlFor='link'> link: </label>
+                <LinkInput 
                     required 
                     type='url'
-                    className='link' 
+                    id='link' 
+                    placeholder='url...'
                     onChange={e => {
                         setUrl(e.target.value);
                     }}  
                 />
             </div>
             <div> 
-            <label htmlFor='description'> description </label>
-                <textarea  
-                    className='description'
+                <DescriptionField  
+                    placeholder='add notes...'
                     onChange={e => {
                         setDescription(e.target.value);
                     }}  
                 />
             </div>
             <div> 
-                <input type='submit' />
+                <Submit type='submit' value='Add Link' />
             </div>
         </StyledForm>
     )
 }
 
 const StyledForm = styled.form `
-    border: 1px black solid;
+    padding-top: 20px;
+    width: 520px;
+
+    label {
+        margin: 5px;
+    }
+`
+
+const LinkInput = styled.input `
+    height: 15px;
+    width: 450px;
+    font-size: 13px;
+    font-family: monospace;
+
+`
+
+const DescriptionField = styled.textarea `
+    width: 500px;
+    height: 75px;
+    margin-top: 20px;
+`
+
+const Submit = styled.input `
+    margin-top: 20px;
+    padding: 10px;
+    cursor: pointer;
+
 `
 export default AddLinkModal;

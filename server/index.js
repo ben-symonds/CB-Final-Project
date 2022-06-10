@@ -3,6 +3,7 @@
 // Import the Needed node_modules.
 const express = require('express');
 const morgan = require('morgan');
+const fileUpload = require('express-fileupload');
 
 // Import the Needed Endpoint Handlers
 const {
@@ -25,6 +26,7 @@ express()
 
     // Any requests for static files will go into the public folder
     .use(express.static('public'))
+    .use(fileUpload())
 
     // Endpoints for Users mongoDB Collection
     .post('/post-user', postUser)
@@ -34,7 +36,7 @@ express()
 
     //this endpoint posts a new cluster
     .post('/post-cluster', postCluster)
-  
+
     //this endpoint retrieves a cluster based on its id
     .get('/get-cluster/:id', getCluster)
 
@@ -58,6 +60,27 @@ express()
 
     //this endpoint retrieves 5 random tags from public clusters
     .get('/get-featured-tags', getFeaturedTags)
+
+    .post('/post-cluster-image', (req, res) => {
+
+        if(req.files === null){
+            res.status(400).json({status: 400, message: 'Could Not Upload File'});
+        }
+
+        const file = req.files.file;
+
+        const path = Date.now() + file.name.replace(/\s/g, '');
+
+        file.mv(`../client/public/images/${path}`, err => {
+            if(err) {
+                console.error(err);
+                res.status(500).json({status: 500, message: 'Could Not Find File Path'});
+            }
+
+            res.status(200).json({status: 200, data: {name: file.name, path: `/images/${path}`} ,  message: 'New Cluster Added to Database'})
+        })
+    })
+
 
     // Endpoint to Catch Unhandled Errors
     .get('*', (req, res) => {

@@ -31,6 +31,7 @@ export default createGlobalStyle`
     menu, nav, output, ruby, section, summary,
     time, mark, audio, video {
         margin: 0;
+        font-family: var(--font-heading);
         padding: 0;
         border: 0;
         box-sizing: border-box;
@@ -57,9 +58,8 @@ export default createGlobalStyle`
         content: none;
     }
 
-    h1,
-    h2,
-    h3,
+
+    
     label,
     button {
         font-family: var(--font-heading);
@@ -74,7 +74,6 @@ export default createGlobalStyle`
     li,
     blockquote,
     input {
-        font-family: var(--font-body);
         color: #000;
         font-size: 15px;
         text-decoration: none;

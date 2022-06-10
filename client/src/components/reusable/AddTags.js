@@ -10,7 +10,7 @@ const AddTags = ({tags, setTags}) => {
     const handleOnClick = () => {
         if(tag && tags.length < 5 && !tags.includes(tag)){ 
             const processedTag = tag.trim().toLowerCase();
-            if(processedTag.length >= 3) {
+            if(processedTag.length >= 3 && processedTag.length <= 12) {
                 const newTagsArr = tags;
                 newTagsArr.push(processedTag);
                 newTagsArr.sort();

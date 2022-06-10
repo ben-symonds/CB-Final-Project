@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import VideoItem from './cluster_items/VideoItem';
 import LinkItem from './cluster_items/LinkItem';
-import TextItem from './cluster_items/TextItem'
+import TextItem from './cluster_items/TextItem';
+import ImageItem from './cluster_items/ImageItem';
 
 import { UserContext } from '../contexts/UserContext';
 import  { ClusterContext } from '../contexts/ClusterContext';
@@ -15,6 +16,10 @@ const EditCluster = () => {
     const { user } = useContext(UserContext);
 
     const { update, setUpdate, openAddClusterItemModal, setOpenAddClusterItemModal  } = useContext(ClusterContext);
+
+    useEffect(() => {
+        setOpenAddClusterItemModal(false);
+    }, [])
 
     //grabs cluster id from url 
     const { id } = useParams();
@@ -57,36 +62,52 @@ const EditCluster = () => {
             {loading ?
             <div> loading </div>
             : <ClusterShell>
-                {/* {if cluster belongs to user allow option to edit } */}
-                {belongsToCurrentUser && 
-                    <>
-                        
-                        <button 
-                            onClick={()=> { 
-                                setOpenAddClusterItemModal(!openAddClusterItemModal);
-                                setOpenDeleteClusterModal(false);
-                            }}
-                        >  
-                            + add to cluster + 
-                        </button>
-                        {openAddClusterItemModal && <AddClusterItemModal setUpdate={setUpdate} setOpenAddClusterItemModal={setOpenAddClusterItemModal} />}
-                        <button 
-                            onClick={() =>{
-                                setOpenDeleteClusterModal(!openDeleteClusterModal);
-                                setOpenAddClusterItemModal(false);
-                            }}> 
-                            - delete cluster - 
-                        </button>
-                        {openDeleteClusterModal && <DeleteClusterModal setOpenDeleteClusterModal={setOpenDeleteClusterModal} setUpdate={setUpdate} />}
-                    </>
-                }
-                <p> {cluster.datePublished} </p>
-                <h1> {cluster.title} </h1>
-                {cluster.description && <p> {cluster.description} </p>}
+                <Title> {cluster.title} </Title>
+                <Date> Created {cluster.datePublished}. </Date>
+                {cluster.description && <Description> {cluster.description} </Description>}
+                <Divider />
                 {cluster.tags.length > 0 && 
                     cluster.tags.map((tag) => {
                         <div> {tag} </div>
                     })
+                }
+                 {/* {if cluster belongs to user allow option to edit } */}
+                 {belongsToCurrentUser && 
+                    <ButtonWrapper>
+                        
+                        <EditButton 
+                            onClick={()=> { 
+                                setOpenAddClusterItemModal(!openAddClusterItemModal);
+                                setOpenDeleteClusterModal(false);
+                            }}
+                            style={
+                                openAddClusterItemModal ? 
+                                    {backgroundColor: '#000',
+                                    color: '#fff'}
+                                    :{backgroundColor: '#fff',
+                                    color: '#000'}
+                            }
+                        >  
+                            + add to cluster + 
+                        </EditButton>
+                        {openAddClusterItemModal && <AddClusterItemModal setUpdate={setUpdate} setOpenAddClusterItemModal={setOpenAddClusterItemModal} />}
+                        <EditButton 
+                            onClick={() =>{
+                                setOpenDeleteClusterModal(!openDeleteClusterModal);
+                                setOpenAddClusterItemModal(false);
+                            }} 
+                            style={
+                                openDeleteClusterModal ? 
+                                    {backgroundColor: '#000',
+                                    color: '#fff'}
+                                    :{backgroundColor: '#fff',
+                                    color: '#000'}
+                            }
+                        >
+                            - delete cluster - 
+                        </EditButton>
+                        {openDeleteClusterModal && <DeleteClusterModal setOpenDeleteClusterModal={setOpenDeleteClusterModal} setUpdate={setUpdate} />}
+                    </ButtonWrapper>
                 }
                 {cluster.items.length > 0 ?
                 <>
@@ -97,6 +118,8 @@ const EditCluster = () => {
                             return <LinkItem url={item.url} description={item.description} date={item.datePublished} itemId={item.itemId} belongsToCurrentUser={belongsToCurrentUser} key={item.itemId} setUpdate={setUpdate} />
                         } else if(item.type === 'text') {
                             return <TextItem text={item.text} date={item.datePublished} itemId={item.itemId} belongsToCurrentUser={belongsToCurrentUser} key={item.itemId} setUpdate={setUpdate} /> 
+                        } else if(item.type === 'image') {
+                            return <ImageItem path={item.path} description={item.description} date={item.datePublished} itemId={item.itemId} belongsToCurrentUser={belongsToCurrentUser} key={item.itemId} setUpdate={setUpdate} /> 
                         }
                     })}
                 </>
@@ -112,21 +135,45 @@ const EditCluster = () => {
 const Wrapper = styled.div `
     display: flex;
     justify-content: center;
-
-    button {
-        margin: 5px;
-    }
 `
 
 const ClusterShell = styled.div `
     display: flex;
     flex-direction: column;
     align-items: center;
-    
-    div {
-        padding: 20px;
-    }
-
 `
 
+const Title = styled.h1 `
+    margin: 10px;
+    font-size: 40px;
+`
+
+const Date = styled.p `
+    font-size: 12px;
+    color: #444
+`
+
+const Description = styled.p `
+    margin-top: 10px;
+`
+
+const Divider = styled.span `
+    width: 550px;
+    border-bottom: 2px solid #000;
+    margin-top: 10px;
+`
+
+const ButtonWrapper = styled.div `
+    margin-top: 10px;
+    display: flex;
+    width: 302px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
+
+const EditButton = styled.button `
+    width: 550px;
+    margin-bottom: 15px;
+`
 export default EditCluster;

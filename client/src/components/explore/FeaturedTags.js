@@ -36,7 +36,7 @@ const FeaturedTags = ({setClusters, setLoading, setCurrentTag}) => {
             :<div>  
                 {featuredTags.map(tag => {
                     return (
-                    <button onClick={() => handleClick(tag)}> 
+                    <button key={tag} onClick={() => handleClick(tag)}> 
                         <Tag key={tag} tagName={tag} />
                     </button>
                     )

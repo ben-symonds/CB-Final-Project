@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../../firebase-config';
 import styled from 'styled-components';
@@ -6,6 +7,8 @@ import styled from 'styled-components';
 import { UserContext } from '../contexts/UserContext';
 
 const RegisterModal = ({setOpenRegisterModal}) => {
+
+    const navigate = useNavigate();
 
     const {} = useContext(UserContext);
 
@@ -24,7 +27,7 @@ const RegisterModal = ({setOpenRegisterModal}) => {
                 id: user.user.uid
             }
 
-            fetch("/post-user", {
+            await fetch("/post-user", {
                 method: "POST",
                 headers: {
                     "Content-Type" : "application/json",
@@ -32,6 +35,8 @@ const RegisterModal = ({setOpenRegisterModal}) => {
                 },
                 body: JSON.stringify(dbTestUser)
             })
+
+            navigate(`/user/${user.user.uid}`)
             
         } catch (err) {
             console.log(err.message);
