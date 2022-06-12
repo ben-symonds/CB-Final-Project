@@ -1,0 +1,55 @@
+
+<!-- saved from url=(0032)http://127.0.0.1:5500/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Nyan Kat</title>
+  </head>
+  <body style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+    <div id="app" style="background: purple; position: relative; height: 650px; border-width: 170px 50px; border-style: solid; border-color: rgb(255, 255, 221); filter: sepia(100%) saturate(200%) brightness(70%) hue-rotate(180deg); opacity: 0.8;"><div style="position: absolute; left: 40px; top: 30px; color: white; font: bold 30px Impact; z-index: 2000;">6</div><img src="./Nyan Kat_files/une.png" style="position: absolute; left: 150px; top: 606px; z-index: 10;"><img src="./Nyan Kat_files/background.png" style="height: 650px; width: 525px;"><div style="display: flex; justify-content: center; align-items: flex-start; padding-top: 20px; z-index: 100; position: absolute; top: 650px; height: 150px; width: 525px; background: rgb(255, 255, 221);"><div>GAME OVER</div></div><div style="display: flex; justify-content: center; align-items: flex-end; padding-bottom: 20px; z-index: 100; position: absolute; bottom: 650px; height: 150px; width: 525px; background: rgb(255, 255, 221);"><div>Level 1</div></div><img src="./Nyan Kat_files/balloon-pod.png" style="position: absolute; left: 150px; top: 525.156px; z-index: 5;"><img src="./Nyan Kat_files/balloon-pod.png" style="position: absolute; left: 450px; top: 374.189px; z-index: 5;"></div>
+    <script src="./Nyan Kat_files/data.js"></script>
+    <script src="./Nyan Kat_files/Enemy.js"></script>
+    <script src="./Nyan Kat_files/engine-utilities.js"></script>
+    <script src="./Nyan Kat_files/Text.js"></script>
+    <script src="./Nyan Kat_files/Engine.js"></script>
+    <script src="./Nyan Kat_files/Player.js"></script>
+    <script src="./Nyan Kat_files/main.js"></script>
+    <script src="./Nyan Kat_files/add-ons.js"></script>
+  <!-- Code injected by live-server -->
+<script type="text/javascript">
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+</body></html>

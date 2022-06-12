@@ -16,7 +16,11 @@ const {
     deleteCluster,
     getPublicClusters,
     getPublicClustersByTag,
-    getFeaturedTags
+    getFeaturedTags,
+    getUsername,
+    getPublicClustersById,
+    patchClusterVisibility,
+    patchClusterTags
 } = require('./handlers');
 
 express()
@@ -30,6 +34,9 @@ express()
 
     // Endpoints for Users mongoDB Collection
     .post('/post-user', postUser)
+
+    //this endpoint retrieves the username asscociated with user id
+    .get('/get-username/:id', getUsername)
 
 
     //Endpoints for Clusters mongoDB Collection
@@ -81,6 +88,11 @@ express()
         })
     })
 
+    .get('/get-public-user-clusters/:id', getPublicClustersById)
+
+    .patch('/patch-cluster-visibility/:id/:visibility', patchClusterVisibility)
+
+    .patch('/patch-cluster-tags/:id/:tags', patchClusterTags)
 
     // Endpoint to Catch Unhandled Errors
     .get('*', (req, res) => {

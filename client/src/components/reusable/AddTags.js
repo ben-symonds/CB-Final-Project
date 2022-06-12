@@ -3,21 +3,29 @@ import styled from 'styled-components';
 
 import Tag from './Tag';
 
-const AddTags = ({tags, setTags}) => {
+const AddTags = ({tags, setTags, setUpdateTags}) => {
 
-    const [ tag, setTag ] = useState('');
+    const [ newTag, setNewTag ] = useState('');
 
-    const handleOnClick = () => {
-        if(tag && tags.length < 5 && !tags.includes(tag)){ 
-            const processedTag = tag.trim().toLowerCase();
+    const handleAddTag = () => {
+        if(newTag && tags.length < 5 && !tags.includes(newTag)){ 
+            const processedTag = newTag.trim().toLowerCase();
             if(processedTag.length >= 3 && processedTag.length <= 12) {
                 const newTagsArr = tags;
                 newTagsArr.push(processedTag);
-                newTagsArr.sort();
-                setTags(newTagsArr);
-                setTag('');
+                const sortedArr = newTagsArr.sort();
+                setNewTag('');
+                setTags([...sortedArr]);
+                // setUpdateTags(true);
             }
         }
+    }
+
+    const handleRemoveTag = tag => {
+        const newTagsArr = tags;
+        newTagsArr.splice(newTagsArr.indexOf(tag), 1);
+        setTags([...newTagsArr]);
+        // setUpdateTags(true);
     }
 
     return (
@@ -25,15 +33,20 @@ const AddTags = ({tags, setTags}) => {
             <input 
                 type='text'
                 placeholder='add tags'
-                value={tag}
+                value={newTag}
                 onChange={e => {
-                    setTag(e.target.value)
+                    setNewTag(e.target.value)
                 }}
             />
-            <button onClick={handleOnClick}> 
+            <button onClick={handleAddTag}> 
                 + 
             </button> 
-            {tags.length > 0 && tags.map(tag => <Tag tagName={tag} key={tag} /> )}
+            {tags.length > 0 && tags.map(tag => 
+                <span>
+                    <button key={`${tag}btn`}  onClick={() => handleRemoveTag(tag)}> x </button>
+                    <Tag tagName={tag} key={tag} /> 
+                </span>
+            )}
             <div> <p> tags can be between 3 to 12 characters long. Maximum of 5 tags per cluster  </p> </div>
         </Wrapper>
     )

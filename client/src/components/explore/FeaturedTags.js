@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import Tag from '../reusable/Tag';
 
-const FeaturedTags = ({setClusters, setLoading, setCurrentTag}) => {
+const FeaturedTags = ({setClusters, setLoading, setCurrentTag, setNoMatchMessage}) => {
 
     const [ featuredTags, setFeaturedTags ] = useState(null);
     const [ tagsLoading, setTagsLoading ] = useState(true);
@@ -20,6 +20,8 @@ const FeaturedTags = ({setClusters, setLoading, setCurrentTag}) => {
 
         setLoading(true);
 
+        setNoMatchMessage(null);
+
         fetch(`/get-public-clusters/${tag}`)
             .then(res => res.json())
             .then(data => {
@@ -33,7 +35,7 @@ const FeaturedTags = ({setClusters, setLoading, setCurrentTag}) => {
         <>
             {tagsLoading ? 
             <div> loading </div>
-            :<div>  
+            :<div>  featured tags: 
                 {featuredTags.map(tag => {
                     return (
                     <button key={tag} onClick={() => handleClick(tag)}> 

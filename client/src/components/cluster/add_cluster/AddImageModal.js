@@ -14,14 +14,12 @@ const AddImageModal = () => {
     //grabs cluster id from url 
     const { id } = useParams();
 
-    const [ file, setFile ] = useState(null);
-    const [ fileName, setFileName ] = useState(null); 
     const [ description, setDescription ] = useState(null);
     const [ uploadedFile, setUploadedFile ] = useState(null);
 
 
-    const handleSubmit = async e => {
-        e.preventDefault();
+    const handleSubmit = async (file) => {
+
         const formData = new FormData();
         formData.append('file', file);
 
@@ -73,16 +71,12 @@ const AddImageModal = () => {
                 <FileInput 
                     type='file' 
                     onChange={e => {
-                        setFile(e.target.files[0]);
-                        setFileName(e.target.files[0].name)
+                        handleSubmit(e.target.files[0])
                     }}
                     onClick={() => {
                         setUploadedFile(null);
-                        setFileName(null);
-                        setFile(null);
                     }}
                 /> 
-                {file && <input type='submit' value='Preview Image' /> }
             </StyledForm>
             {uploadedFile && 
             <>

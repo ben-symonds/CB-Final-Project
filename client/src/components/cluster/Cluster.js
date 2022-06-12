@@ -6,10 +6,14 @@ import LinkItem from './cluster_items/LinkItem';
 import TextItem from './cluster_items/TextItem';
 import ImageItem from './cluster_items/ImageItem';
 
+
 import { UserContext } from '../contexts/UserContext';
 import  { ClusterContext } from '../contexts/ClusterContext';
 import AddClusterItemModal from './add_cluster/AddClusterItemModal';
 import DeleteClusterModal from './DeleteClusterModal';
+import VisibilityModal from './VisibilityModal';
+import AddTags from '../reusable/AddTags';
+import Tag from '../reusable/Tag';
 
 const EditCluster = () => {
 
@@ -35,7 +39,19 @@ const EditCluster = () => {
     const [ openDeleteClusterModal, setOpenDeleteClusterModal ] = useState(false);
 
     //stores a boolean depending on if cluster belongs to current user
-    const [ belongsToCurrentUser, setBelongsToCurrentUser ] = useState(false)
+    const [ belongsToCurrentUser, setBelongsToCurrentUser ] = useState(false);
+
+    const [ openChangeVisibilityModal, setOpenChangeVisibilityModal ] = useState(false);
+
+    const [ username, setUsername ] = useState(null);
+
+    const [ visibilitySetting, setVisibilitySetting ] = useState(null);
+
+    const [ tags, setTags ] = useState(null); 
+
+    const [ updateTags, setUpdateTags ] = useState(false);
+
+    const [ openEditTags, setOpenEditTags ] = useState(false);
 
     //determines if cluster belongs to current user
     useEffect(() => {
@@ -46,16 +62,40 @@ const EditCluster = () => {
         }
     }, [loading, user])
 
+    const getUsername = async userId => {
+        await fetch(`/get-username/${userId}`)
+                .then(res => res.json())
+                .then(data => {
+                    setUsername(data.data);
+                    setLoading(false);
+                })
+    }
+
     //retrieves cluster object from DB
     useEffect(() => {
             fetch(`/get-cluster/${id}`)
             .then(res => res.json())
             .then(data => {
                 setCluster(data.data);
-                setLoading(false);
+                setVisibilitySetting(data.data.visibility);
+                getUsername(data.data.userId);
                 setUpdate(false);
             })
     }, [update])
+
+    useEffect(() => {
+        if(tags){
+            if(tags.length) {fetch(`/patch-cluster-tags/${id}/${tags}`, {
+                method: "PATCH"
+            })}else {
+                fetch(`/patch-cluster-tags/${id}/${'empty'}`, {
+                    method: "PATCH"
+                })
+            }
+        }
+            setUpdateTags(false);     
+    }, [tags])
+
 
     return (
         <Wrapper>
@@ -63,14 +103,43 @@ const EditCluster = () => {
             <div> loading </div>
             : <ClusterShell>
                 <Title> {cluster.title} </Title>
-                <Date> Created {cluster.datePublished}. </Date>
-                {cluster.description && <Description> {cluster.description} </Description>}
-                <Divider />
-                {cluster.tags.length > 0 && 
-                    cluster.tags.map((tag) => {
-                        <div> {tag} </div>
-                    })
+                <Date> Created {cluster.datePublished} by </Date>
+                {belongsToCurrentUser ? 
+                <span> you. </span>
+                :<span> {username}. </span> }
+                {belongsToCurrentUser && 
+                    <>
+                        <button
+                            onClick={() => {
+                                setOpenChangeVisibilityModal(!openChangeVisibilityModal)
+                            }}
+                        > 
+                            {visibilitySetting} 
+                        </button> 
+
+                    </>
                 }
+                {openChangeVisibilityModal && <VisibilityModal visibility={visibilitySetting} setVisibilitySetting={setVisibilitySetting} setOpenChangeVisibilityModal={setOpenChangeVisibilityModal} />}
+                {cluster.description && <Description> {cluster.description} </Description>}
+                {belongsToCurrentUser && 
+                    <button
+                        onClick={() => {
+                            setOpenEditTags(!openEditTags);
+                        }}
+                    > 
+                        edit tags 
+                    </button>
+                }
+                {openEditTags ?
+                    <> <AddTags tags={cluster.tags} setTags={setTags} setUpdateTags={setUpdateTags} /> </>
+                    :<>{ 
+                        cluster.tags.length > 0 && 
+                            cluster.tags.map((tag) => {
+                                return <Tag key={tag} tagName={tag} />
+                        })
+                    }</>
+                }   
+                <Divider />
                  {/* {if cluster belongs to user allow option to edit } */}
                  {belongsToCurrentUser && 
                     <ButtonWrapper>
@@ -111,11 +180,11 @@ const EditCluster = () => {
                 }
                 {cluster.items.length > 0 ?
                 <>
-                    {cluster.items.map((item) => {
+                    {cluster.items.slice(0).reverse().map((item) => {
                         if(item.type === 'playable media') {
                             return <VideoItem url={item.url} description={item.description} date={item.datePublished} itemId={item.itemId} belongsToCurrentUser={belongsToCurrentUser} key={item.itemId} setUpdate={setUpdate} />
                         } else if(item.type === 'link') {
-                            return <LinkItem url={item.url} description={item.description} date={item.datePublished} itemId={item.itemId} belongsToCurrentUser={belongsToCurrentUser} key={item.itemId} setUpdate={setUpdate} />
+                            return <LinkItem url={item.url} description={item.description} date={item.datePublished} itemId={item.itemId} belongsToCurrentUser={belongsToCurrentUser} key={item.itemId} setUpdate={setUpdate} name={item.name} />
                         } else if(item.type === 'text') {
                             return <TextItem text={item.text} date={item.datePublished} itemId={item.itemId} belongsToCurrentUser={belongsToCurrentUser} key={item.itemId} setUpdate={setUpdate} /> 
                         } else if(item.type === 'image') {

@@ -244,6 +244,120 @@ const getFeaturedTags = async (req,res) => {
     }
 }
 
+const getUsername = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+
+    const id = (req.params.id);
+
+    try {
+        await client.connect();
+        const db = client.db('Cluster');
+        const result = await db.collection('Users').findOne({id: id});
+
+        result
+        ? res.status(200).json({status: 200, data: result.username,  message: 'Cluster Retrived'})
+        : res.status(400).json({status: 400, message: 'Cluster Not Found'});
+
+        client.close();
+    }
+    catch(error){
+        console.log(error.stack)
+    }
+}
+
+const getPublicClustersById = async (req, res) => {
+
+    const id = req.params.id;
+
+    const client = new MongoClient(MONGO_URI, options);
+
+    try {
+        
+        await client.connect();
+        const db = client.db('Cluster');
+        const result = await db.collection('Clusters').find({visibility: 'public', userId: id}).toArray();
+
+        result.length
+        ? res.status(200).json({status: 200, data: result,  message: 'Public Clusters Retrived By Id'})
+        : res.status(400).json({status: 400, message: `No public clusters were found by this user`});
+
+        client.close();
+    }
+    catch(error){
+        console.log(error.stack)
+    }
+}
+
+const patchClusterVisibility = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+    
+    const id = (req.params.id);
+
+    const newVisibility = (req.params.visibility);
+
+    try {
+        await client.connect();
+        const db = client.db('Cluster');
+        const result = await db.collection('Clusters').updateOne(
+            {clusterId: id},
+            {'$set': {visibility: newVisibility}}
+        )
+
+        result
+        ? res.status(200).json({status: 200, message: 'Cluster Visibility Updated'})
+        : res.status(400).json({status: 400, message: 'Could Not Update Visibility'});
+
+        client.close();
+    }
+    catch(error){
+        console.log(error.stack)
+    }
+}
+
+const patchClusterTags = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+    
+    const id = (req.params.id);
+
+    const newTags = (req.params.tags);
+
+
+    try {
+        await client.connect();
+        const db = client.db('Cluster');
+
+        let result;
+
+        if(newTags === 'empty') {
+            result = await db.collection('Clusters').updateOne(
+                {clusterId: id},
+                {'$set': {tags: []}}
+            )
+            result
+            ? res.status(200).json({status: 200, message: 'Cluster Visibility Updated'})
+            : res.status(400).json({status: 400, message: 'Could Not Update Visibility'});
+    
+            client.close();
+        } else {
+            const newTagsArr = newTags.split(',');
+            result = await db.collection('Clusters').updateOne(
+                {clusterId: id},
+                {'$set': {tags: newTagsArr}}
+            )
+            result
+            ? res.status(200).json({status: 200, message: 'Cluster Visibility Updated'})
+            : res.status(400).json({status: 400, message: 'Could Not Update Visibility'});
+    
+            client.close();
+        }
+
+    }
+    catch(error){
+        console.log(error.stack)
+    }
+
+    client.close();
+}
 
 module.exports = {
     postUser,
@@ -255,5 +369,9 @@ module.exports = {
     deleteCluster,
     getPublicClusters,
     getPublicClustersByTag,
-    getFeaturedTags
+    getFeaturedTags,
+    getUsername,
+    getPublicClustersById,
+    patchClusterVisibility,
+    patchClusterTags
 }

@@ -80,6 +80,7 @@ const ModalShell = styled.div `
     justify-content: space-between;
     width: 15vw;
     min-width: 298px;
+    background-color: white;
 
     input {
         margin: 3px 5px;

@@ -16,6 +16,7 @@ const AddLinkModal = () => {
 
     const [ url, setUrl ] = useState(null);
     const [ description, setDescription ] = useState(null);
+    const [ name, setName ] = useState(null);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -24,6 +25,7 @@ const AddLinkModal = () => {
             datePublished: moment().format('MMMM Do YYYY, h:mm a'),
             description: description,
             itemId: uuidv4(),
+            name: name,
             type: 'link',
             url: url,
         }
@@ -45,6 +47,16 @@ const AddLinkModal = () => {
     return (
         <StyledForm onSubmit={handleSubmit}>
             <div> 
+                <label htmlFor='name'> name:  </label>
+                <NameInput 
+                    required
+                    type='text'
+                    id='text'
+                    placeholder='link name...'
+                    onChange={e => {
+                        setName(e.target.value);
+                    }}
+                />
                 <label htmlFor='link'> link: </label>
                 <LinkInput 
                     required 
@@ -86,6 +98,13 @@ const LinkInput = styled.input `
     font-size: 13px;
     font-family: monospace;
 
+`
+
+const NameInput = styled.input `
+    height: 15px;
+    width: 450px;
+    font-size: 13px;
+    font-family: monospace;
 `
 
 const DescriptionField = styled.textarea `

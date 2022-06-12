@@ -17,6 +17,10 @@ export default createGlobalStyle`
         License: none (public domain)
     */
 
+        *:focus {
+            outline: none;
+        }
+
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
     a, abbr, acronym, address, big, cite, code,
