@@ -12,7 +12,7 @@ import Profile from './profile/Profile';
 import Explore from './explore/Explore';
 import Cluster from './cluster/Cluster';
 import CreateCluster from './create_cluster/CreateCluster';
-import EditCluster from './cluster/Cluster';
+import NotFound from './not_found/NotFound';
 
 const App = () => {
   return (
@@ -25,6 +25,7 @@ const App = () => {
         <Route path='/cluster/:id' element={<Cluster />}  />
         <Route path='/create' element={<CreateCluster />} />
         <Route  path='/explore' element={<Explore />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   )

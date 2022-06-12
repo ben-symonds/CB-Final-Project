@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import SmallCluster from '../reusable/SmallCluster';
+import LoadingDots from '../reusable/LoadingDots';
 
 import { UserContext } from '../contexts/UserContext';
 
@@ -15,7 +16,8 @@ const Profile = () => {
     const [ clusters, setClusters ] = useState(null);
     const [ loading, setLoading ] = useState(true);
     const [ currentUserProfile, setCurrentUserProfile ] = useState(false);
-    const [ userDisplayMsg, setUserDisplayMsg ] = useState(null);
+    const [ username, setUsername ] = useState(null);
+    const [ validUser, setValidUser ] = useState(false);
 
     const retrieveCurrentUserProfile = () => {
 
@@ -25,6 +27,7 @@ const Profile = () => {
                 .then(res => res.json())
                 .then(data => {
                     setClusters(data.data);
+                    setValidUser(true);
                     setLoading(false);
                 })
 
@@ -34,26 +37,30 @@ const Profile = () => {
 
         setCurrentUserProfile(false);
 
-        try {
+        
             fetch(`/get-username/${id}`)
                 .then(res => res.json())
                 .then(data => {
-                    setUserDisplayMsg(`${data.data}'s Public Clusters`);
+                    setUsername(data.data);
+                    setLoading(false);
                 })
-        } catch(error){
-            console.log(error.stack)
-        }
+                .catch(error => {
+                    console.log(error.stack)
+                })
 
-        try {
             fetch(`/get-public-user-clusters/${id}`)
             .then(res => res.json())
             .then(data => {
-                setClusters(data.data);
-                setLoading(false);
-        })  
-        } catch(error){
-            console.log(error.stack)
-        }
+                if(data.message === 'User does not exist') {
+                    console.log('invalid user');
+                } else{
+                    setValidUser(true);
+                    setClusters(data.data);
+                }
+            })  
+            .catch((error) => {
+                console.log(error)
+            });
     }
 
     useEffect(() => {
@@ -67,17 +74,24 @@ const Profile = () => {
     return (
         <Wrapper>
             {loading ?
-            <div> loading </div> 
+            <div> <LoadingDots /> </div> 
             :<>
-                {currentUserProfile ? 
-                <div> Your Clusters </div>
-                :<div> { userDisplayMsg } </div>}
-                {currentUserProfile  && <Link to='/create'> + Create New Cluster + </Link>}
-                <ClusterWrapper> 
-                    {clusters.map((cluster) => {
-                        return <SmallCluster items={cluster.items} clusterId={cluster.clusterId} title={cluster.title} key={cluster.clusterId} tags={cluster.tags}/>
-                    })}
-                </ClusterWrapper>
+                {validUser ?
+                    <>
+                        {currentUserProfile ? 
+                                        <DisplayMsg> Your Clusters </DisplayMsg>
+                                        :<DisplayMsg> <span>{username}</span>'s Public Clusters </DisplayMsg>}
+                                        {currentUserProfile  && <Link to='/create'> + Create New Cluster + </Link>}
+                                        <ClusterWrapper> 
+                                            {clusters.map((cluster) => {
+                                                return <SmallCluster items={cluster.items} clusterId={cluster.clusterId} title={cluster.title} key={cluster.clusterId} tags={cluster.tags}/>
+                                            })}
+                                        </ClusterWrapper>
+                    </>
+                    :<>
+                        <div> theres nothing here </div>
+                    </>
+                }
             </>
             }
         </Wrapper>
@@ -95,6 +109,16 @@ const Wrapper = styled.div `
         width: 200px;
         margin-top: 20px;
         ma
+    }
+`
+
+const DisplayMsg = styled.div `
+
+    margin-top: 20px;
+    font-size: 20px;
+    span {
+        font-size: 20px;
+        font-weight: bold;
     }
 `
 

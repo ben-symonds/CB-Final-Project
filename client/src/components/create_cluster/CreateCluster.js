@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 //uuid is used to assign a unique id to the cluster
 import { v4 as uuidv4 } from 'uuid';
@@ -7,6 +7,7 @@ import moment from 'moment';
 
 import { UserContext } from '../contexts/UserContext';
 import AddTags from '../reusable/AddTags';
+import LoadingDots from '../reusable/LoadingDots';
 
 const CreateCluster = () => {
 
@@ -20,9 +21,14 @@ const CreateCluster = () => {
     const [ description, setDescription ] = useState(null);
     const [ publicCluster, setPublicCluster ] = useState(true);
     const [ privateCluster, setPrivateCluster ] = useState(false);
+    const [ loading, setLoading ] = useState(true);
+
+
+    useEffect(() => {
+        setLoading(false)
+    }, [user])
 
     const handleSubmit = async e => {
-
         e.preventDefault();
         //creates a  cluster object skeleton with some identifiers
         const newCluster = {
@@ -52,59 +58,68 @@ const CreateCluster = () => {
     }
 
     return ( 
-        <FormShell>
-            <h3> new cluster </h3>
-            <AddTags tags={tags} setTags={setTags}/> 
-            <form onSubmit={handleSubmit}> 
-                <div> 
-                    <label htmlFor='title'> title </label>
-                    <input 
-                        type='text' 
-                        className='title' 
-                        required
-                        onChange={e => {
-                            setTitle(e.target.value);
-                        }}
-                    />
-                </div>
-                <TextAreaWrapper> 
-                    <label htmlFor='description'> description </label>
-                    <textarea 
-                        className='description'
-                        onChange={e => {
-                            setDescription(e.target.value);
-                        }}
-                    />
-                </TextAreaWrapper>
-                <div>
-                    <p>  </p>
-                    <label htmlFor='public'> public </label>
-                    <input 
-                        type='radio' 
-                        value='public' 
-                        name='public' 
-                        className='public' 
-                        defaultChecked
-                        onChange={() => {
-                            setPublicCluster(!publicCluster);
-                            setPrivateCluster(!privateCluster);
-                        }}
-                    />
-                    <label htmlFor='private'> private </label>
-                    <input 
-                        type='radio' 
-                        value='private' 
-                        name='public' 
-                        className='private'
-                        onChange={() => {
-                            setPublicCluster(!publicCluster);
-                            setPrivateCluster(!privateCluster);
-                        }}
-                    />
-                </div>
-                <input type='submit' value='create cluster' />
-            </form>
-        </FormShell>
+        <>
+        {loading ? 
+        <div> <LoadingDots /> </div>
+        :<>{user ?
+            <FormShell>
+                <h3> new cluster </h3>
+                <AddTags tags={tags} setTags={setTags}/> 
+                <form onSubmit={handleSubmit}> 
+                    <div> 
+                        <label htmlFor='title'> title </label>
+                        <input 
+                            type='text' 
+                            className='title' 
+                            maxlength='30'
+                            required
+                            onChange={e => {
+                                setTitle(e.target.value);
+                            }}
+                        />
+                    </div>
+                    <TextAreaWrapper> 
+                        <label htmlFor='description'> description </label>
+                        <textarea 
+                            className='description'
+                            onChange={e => {
+                                setDescription(e.target.value);
+                            }}
+                        />
+                    </TextAreaWrapper>
+                    <div>
+                        <p>  </p>
+                        <label htmlFor='public'> public </label>
+                        <input 
+                            type='radio' 
+                            value='public' 
+                            name='public' 
+                            className='public' 
+                            defaultChecked
+                            onChange={() => {
+                                setPublicCluster(!publicCluster);
+                                setPrivateCluster(!privateCluster);
+                            }}
+                        />
+                        <label htmlFor='private'> private </label>
+                        <input 
+                            type='radio' 
+                            value='private' 
+                            name='public' 
+                            className='private'
+                            onChange={() => {
+                                setPublicCluster(!publicCluster);
+                                setPrivateCluster(!privateCluster);
+                            }}
+                        />
+                    </div>
+                    <input type='submit' value='create cluster' />
+                </form>
+            </FormShell>
+            :<div> there's nothing here </div>
+        }</>
+        }
+        </>
     )
 }
 

@@ -42,8 +42,8 @@ const AddTags = ({tags, setTags, setUpdateTags}) => {
                 + 
             </button> 
             {tags.length > 0 && tags.map(tag => 
-                <span>
-                    <button key={`${tag}btn`}  onClick={() => handleRemoveTag(tag)}> x </button>
+                <span key={`${tag}-span`}>
+                    <button key={`${tag}-btn`}  onClick={() => handleRemoveTag(tag)}> x </button>
                     <Tag tagName={tag} key={tag} /> 
                 </span>
             )}

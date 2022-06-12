@@ -57,6 +57,7 @@ const ModalShell = styled.div `
     width: 15vw;
     min-width: 300px;
     border: 1px black solid;
+    background-color: white;
     position: absolute;
     top: 35px;
 `

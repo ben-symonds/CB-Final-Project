@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import SmallCluster from '../reusable/SmallCluster';
 import SearchBar from '../reusable/SearchBar';
 import FeaturedTags from './FeaturedTags';
+import LoadingDots from '../reusable/LoadingDots';
 
 const Explore = () => {
 
@@ -26,7 +27,7 @@ const Explore = () => {
     return (
         <Wrapper>
             {loading ?
-            <div> loading </div> 
+            <div> <LoadingDots /> </div> 
             :<>
                 <TopContentWrapper>
                     <SearchBar setClusters={setClusters} setLoading={setLoading} setCurrentTag={setCurrentTag} setNoMatchMessage={setNoMatchMessage} />

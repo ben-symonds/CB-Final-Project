@@ -14,6 +14,7 @@ const SignInModal = ({setOpenSignInModal}) => {
 
     const [ loginEmail, setLoginEmail ] = useState(null);
     const [ loginPassword, setLoginPassword ] = useState(null);
+    const [ errorMsg, setErrorMsg ]  = useState(null);
 
     const handleLogin = async e => {
         e.preventDefault();
@@ -23,9 +24,10 @@ const SignInModal = ({setOpenSignInModal}) => {
                 loginEmail, 
                 loginPassword
             );
-            console.log(user);
+            setErrorMsg(null);
         } catch (err) {
             console.log(err.message);
+            setErrorMsg('x Please enter a valid email and password x')
         }
         
     }
@@ -43,6 +45,7 @@ const SignInModal = ({setOpenSignInModal}) => {
             <form onSubmit={handleLogin}>
                 <div>
                     <input  
+                        className= 'text-input'
                         placeholder='Email' 
                         required
                         type='text' 
@@ -53,6 +56,7 @@ const SignInModal = ({setOpenSignInModal}) => {
                 </div>
                 <div>
                     <input 
+                        className= 'text-input'
                         placeholder='Password' 
                         required
                         type='password' 
@@ -61,6 +65,7 @@ const SignInModal = ({setOpenSignInModal}) => {
                         }} 
                     />
                 </div>
+                {errorMsg && <Error> {errorMsg} </Error>}
                 <Submit type='submit' value='sign in'/>
                 <span> forgot your password? </span>
             </form>
@@ -73,6 +78,7 @@ const ModalShell = styled.div `
     flex-direction: column;
     justify-content: space-between;
     width: 15vw;
+    background-color: white;
     min-width: 300px;
     border: 1px black solid;
     position: absolute;
@@ -99,11 +105,19 @@ const ModalShell = styled.div `
         right: 10px;
         bottom: 9px;
     }
+
+    .text-input {
+        width: 190px;
+    }
 `
 
 const Divider = styled.div `
     width: 100%;
     border-bottom: 1px solid black;
+`
+const Error = styled.div `
+    margin-left: 7px;
+    font-size: 12px;
 `
 
 const Submit = styled.input `

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import  { ClusterContext } from '../../contexts/ClusterContext';
@@ -8,6 +8,8 @@ const DeleteClusterItem = ({itemId}) => {
     const { setUpdate } = useContext(ClusterContext);
      //grabs cluster id from url 
     const { id } = useParams();
+
+    const [ openDeleteClusterItemModal, setOpenDeleteClusterItemModal ] = useState(false);
 
     const handleDelete = async () => {
 
@@ -19,7 +21,27 @@ const DeleteClusterItem = ({itemId}) => {
     }
     
     return (
-        <button onClick={handleDelete}> X </button>
+        <>
+            <button 
+                onClick={() => {
+                    setOpenDeleteClusterItemModal(true);
+                }}
+            > 
+                X   
+            </button>
+            {openDeleteClusterItemModal && 
+                <>
+                    <button onClick={handleDelete}> delete </button>
+                    <button
+                        onClick={() => {
+                            setOpenDeleteClusterItemModal(false)
+                        }}
+                    > 
+                        cancel
+                    </button>
+                </>
+            }
+        </>
     )
 }
 

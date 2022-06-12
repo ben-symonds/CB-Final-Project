@@ -14,6 +14,7 @@ import DeleteClusterModal from './DeleteClusterModal';
 import VisibilityModal from './VisibilityModal';
 import AddTags from '../reusable/AddTags';
 import Tag from '../reusable/Tag';
+import LoadingDots from '../reusable/LoadingDots';
 
 const EditCluster = () => {
 
@@ -53,9 +54,11 @@ const EditCluster = () => {
 
     const [ openEditTags, setOpenEditTags ] = useState(false);
 
+    const [ validCluster, setValidCluster ] = useState(false);
+
     //determines if cluster belongs to current user
     useEffect(() => {
-        if(!loading && user) {
+        if(!loading && user && validCluster) {
             if(user.uid === cluster.userId) {
                 setBelongsToCurrentUser(true);
             }
@@ -67,6 +70,7 @@ const EditCluster = () => {
                 .then(res => res.json())
                 .then(data => {
                     setUsername(data.data);
+                    setValidCluster(true);
                     setLoading(false);
                 })
     }
@@ -76,11 +80,18 @@ const EditCluster = () => {
             fetch(`/get-cluster/${id}`)
             .then(res => res.json())
             .then(data => {
-                setCluster(data.data);
-                setVisibilitySetting(data.data.visibility);
-                getUsername(data.data.userId);
-                setUpdate(false);
+                if(data.message === 'Cluster Not Found'){
+                    console.log('nothing here');
+                    setLoading(false);
+                }else {   
+                    setCluster(data.data);
+                    setVisibilitySetting(data.data.visibility);
+                    getUsername(data.data.userId);
+                    setUpdate(false);}
             })
+            .catch((error) => {
+                console.log(error)
+            });
     }, [update])
 
     useEffect(() => {
@@ -100,101 +111,146 @@ const EditCluster = () => {
     return (
         <Wrapper>
             {loading ?
-            <div> loading </div>
-            : <ClusterShell>
-                <Title> {cluster.title} </Title>
-                <Date> Created {cluster.datePublished} by </Date>
-                {belongsToCurrentUser ? 
-                <span> you. </span>
-                :<span> {username}. </span> }
-                {belongsToCurrentUser && 
-                    <>
+            <div> <LoadingDots /> </div>
+            : <>
+                {validCluster ? 
+                <ClusterShell>
+                    <Title> {cluster.title} </Title>
+                    <Date> Created {cluster.datePublished} by </Date>
+                    {belongsToCurrentUser ? 
+                    <span> you. </span>
+                    :<span> {username}. </span> }
+                    {belongsToCurrentUser && 
+                        <>
+                            <button
+                                onClick={() => {
+                                    setOpenChangeVisibilityModal(!openChangeVisibilityModal)
+                                }}
+                            > 
+                                {visibilitySetting} 
+                            </button> 
+
+                        </>
+                    }
+                    {openChangeVisibilityModal && <VisibilityModal visibility={visibilitySetting} setVisibilitySetting={setVisibilitySetting} setOpenChangeVisibilityModal={setOpenChangeVisibilityModal} />}
+                    {cluster.description && <Description> {cluster.description} </Description>}
+                    {belongsToCurrentUser && 
                         <button
                             onClick={() => {
-                                setOpenChangeVisibilityModal(!openChangeVisibilityModal)
+                                setOpenEditTags(!openEditTags);
                             }}
                         > 
-                            {visibilitySetting} 
-                        </button> 
-
+                            edit tags 
+                        </button>
+                    }
+                    {openEditTags ?
+                        <> <AddTags tags={cluster.tags} setTags={setTags} setUpdateTags={setUpdateTags} /> </>
+                        :<>{ 
+                            cluster.tags.length > 0 && 
+                                cluster.tags.map((tag) => {
+                                    return <Tag key={tag} tagName={tag} />
+                            })
+                        }</>
+                    }   
+                    <Divider />
+                    {/* {if cluster belongs to user allow option to edit } */}
+                    {belongsToCurrentUser && 
+                        <ButtonWrapper>
+                            
+                            <EditButton 
+                                onClick={()=> { 
+                                    setOpenAddClusterItemModal(!openAddClusterItemModal);
+                                    setOpenDeleteClusterModal(false);
+                                }}
+                                style={
+                                    openAddClusterItemModal ? 
+                                        {backgroundColor: '#000',
+                                        color: '#fff'}
+                                        :{backgroundColor: '#fff',
+                                        color: '#000'}
+                                }
+                            >  
+                                + add to cluster + 
+                            </EditButton>
+                            {openAddClusterItemModal && <AddClusterItemModal setUpdate={setUpdate} setOpenAddClusterItemModal={setOpenAddClusterItemModal} />}
+                            <EditButton 
+                                onClick={() =>{
+                                    setOpenDeleteClusterModal(!openDeleteClusterModal);
+                                    setOpenAddClusterItemModal(false);
+                                }} 
+                                style={
+                                    openDeleteClusterModal ? 
+                                        {backgroundColor: '#000',
+                                        color: '#fff'}
+                                        :{backgroundColor: '#fff',
+                                        color: '#000'}
+                                }
+                            >
+                                - delete cluster - 
+                            </EditButton>
+                            {openDeleteClusterModal && <DeleteClusterModal setOpenDeleteClusterModal={setOpenDeleteClusterModal} setUpdate={setUpdate} />}
+                        </ButtonWrapper>
+                    }
+                    {cluster.items.length > 0 ?
+                    <> 
+                        {cluster.items.slice(0).reverse().map((item) => {
+                            if(item.type === 'playable media') {
+                                return <ClusterItemShell> 
+                                        <VideoItem 
+                                            url={item.url} 
+                                            description={item.description} 
+                                            date={item.datePublished} 
+                                            itemId={item.itemId} 
+                                            belongsToCurrentUser={belongsToCurrentUser} 
+                                            key={item.itemId} 
+                                            setUpdate={setUpdate} 
+                                        /> 
+                                    </ClusterItemShell>
+                            } else if(item.type === 'link') {
+                                return <ClusterItemShell> 
+                                        <LinkItem 
+                                            url={item.url} 
+                                            description={item.description} 
+                                            date={item.datePublished} 
+                                            itemId={item.itemId} 
+                                            belongsToCurrentUser={belongsToCurrentUser} 
+                                            key={item.itemId} setUpdate={setUpdate} 
+                                            name={item.name} 
+                                        /> 
+                                    </ClusterItemShell>
+                            } else if(item.type === 'text') {
+                                return <ClusterItemShell> 
+                                        <TextItem 
+                                            text={item.text} 
+                                            date={item.datePublished} 
+                                            itemId={item.itemId} 
+                                            belongsToCurrentUser={belongsToCurrentUser}
+                                            key={item.itemId} 
+                                            setUpdate={setUpdate} 
+                                        /> 
+                                    </ClusterItemShell>
+                            } else if(item.type === 'image') {
+                                return <ClusterItemShell>
+                                    <ImageItem 
+                                        path={item.path} 
+                                        description={item.description} 
+                                        date={item.datePublished} 
+                                        itemId={item.itemId} 
+                                        belongsToCurrentUser={belongsToCurrentUser} 
+                                        key={item.itemId} 
+                                        setUpdate={setUpdate} 
+                                    /> 
+                                </ClusterItemShell> 
+                            }
+                        })}
                     </>
-                }
-                {openChangeVisibilityModal && <VisibilityModal visibility={visibilitySetting} setVisibilitySetting={setVisibilitySetting} setOpenChangeVisibilityModal={setOpenChangeVisibilityModal} />}
-                {cluster.description && <Description> {cluster.description} </Description>}
-                {belongsToCurrentUser && 
-                    <button
-                        onClick={() => {
-                            setOpenEditTags(!openEditTags);
-                        }}
-                    > 
-                        edit tags 
-                    </button>
-                }
-                {openEditTags ?
-                    <> <AddTags tags={cluster.tags} setTags={setTags} setUpdateTags={setUpdateTags} /> </>
-                    :<>{ 
-                        cluster.tags.length > 0 && 
-                            cluster.tags.map((tag) => {
-                                return <Tag key={tag} tagName={tag} />
-                        })
-                    }</>
-                }   
-                <Divider />
-                 {/* {if cluster belongs to user allow option to edit } */}
-                 {belongsToCurrentUser && 
-                    <ButtonWrapper>
-                        
-                        <EditButton 
-                            onClick={()=> { 
-                                setOpenAddClusterItemModal(!openAddClusterItemModal);
-                                setOpenDeleteClusterModal(false);
-                            }}
-                            style={
-                                openAddClusterItemModal ? 
-                                    {backgroundColor: '#000',
-                                    color: '#fff'}
-                                    :{backgroundColor: '#fff',
-                                    color: '#000'}
-                            }
-                        >  
-                            + add to cluster + 
-                        </EditButton>
-                        {openAddClusterItemModal && <AddClusterItemModal setUpdate={setUpdate} setOpenAddClusterItemModal={setOpenAddClusterItemModal} />}
-                        <EditButton 
-                            onClick={() =>{
-                                setOpenDeleteClusterModal(!openDeleteClusterModal);
-                                setOpenAddClusterItemModal(false);
-                            }} 
-                            style={
-                                openDeleteClusterModal ? 
-                                    {backgroundColor: '#000',
-                                    color: '#fff'}
-                                    :{backgroundColor: '#fff',
-                                    color: '#000'}
-                            }
-                        >
-                            - delete cluster - 
-                        </EditButton>
-                        {openDeleteClusterModal && <DeleteClusterModal setOpenDeleteClusterModal={setOpenDeleteClusterModal} setUpdate={setUpdate} />}
-                    </ButtonWrapper>
-                }
-                {cluster.items.length > 0 ?
-                <>
-                    {cluster.items.slice(0).reverse().map((item) => {
-                        if(item.type === 'playable media') {
-                            return <VideoItem url={item.url} description={item.description} date={item.datePublished} itemId={item.itemId} belongsToCurrentUser={belongsToCurrentUser} key={item.itemId} setUpdate={setUpdate} />
-                        } else if(item.type === 'link') {
-                            return <LinkItem url={item.url} description={item.description} date={item.datePublished} itemId={item.itemId} belongsToCurrentUser={belongsToCurrentUser} key={item.itemId} setUpdate={setUpdate} name={item.name} />
-                        } else if(item.type === 'text') {
-                            return <TextItem text={item.text} date={item.datePublished} itemId={item.itemId} belongsToCurrentUser={belongsToCurrentUser} key={item.itemId} setUpdate={setUpdate} /> 
-                        } else if(item.type === 'image') {
-                            return <ImageItem path={item.path} description={item.description} date={item.datePublished} itemId={item.itemId} belongsToCurrentUser={belongsToCurrentUser} key={item.itemId} setUpdate={setUpdate} /> 
-                        }
-                    })}
+                    : <div> cluster is empty </div>}
+                </ClusterShell>
+                :<>
+                    <div> there's nothing here </div>
                 </>
-                : <div> cluster is empty </div>}
-            </ClusterShell>
-
+            }   
+            </>
             }
 
         </Wrapper>
@@ -244,5 +300,15 @@ const ButtonWrapper = styled.div `
 const EditButton = styled.button `
     width: 550px;
     margin-bottom: 15px;
+`
+
+const ClusterItemShell = styled.div `
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    width: 700px;
+    margin: 20px;
+    border: 1px solid black;
+    background-color: #f7f4eb;
 `
 export default EditCluster;

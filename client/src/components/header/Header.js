@@ -56,6 +56,7 @@ const HeaderShell = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid gray;
 `
 
 const ButtonWrapper = styled.div `

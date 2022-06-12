@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import Tag from '../reusable/Tag';
+import LoadingDots from '../reusable/LoadingDots';
 
 const FeaturedTags = ({setClusters, setLoading, setCurrentTag, setNoMatchMessage}) => {
 
@@ -34,7 +35,7 @@ const FeaturedTags = ({setClusters, setLoading, setCurrentTag, setNoMatchMessage
     return(
         <>
             {tagsLoading ? 
-            <div> loading </div>
+            <div>  <LoadingDots /> </div>
             :<div>  featured tags: 
                 {featuredTags.map(tag => {
                     return (

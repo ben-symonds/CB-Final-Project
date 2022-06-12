@@ -275,12 +275,19 @@ const getPublicClustersById = async (req, res) => {
         
         await client.connect();
         const db = client.db('Cluster');
-        const result = await db.collection('Clusters').find({visibility: 'public', userId: id}).toArray();
 
-        result.length
-        ? res.status(200).json({status: 200, data: result,  message: 'Public Clusters Retrived By Id'})
-        : res.status(400).json({status: 400, message: `No public clusters were found by this user`});
+        const userExists = await db.collection('Clusters').find({userId: id}).toArray();
 
+        if(userExists.length) {
+            const result = await db.collection('Clusters').find({visibility: 'public', userId: id}).toArray();
+            result.length
+            ? res.status(200).json({status: 200, data: result,  message: 'Public Clusters Retrived By Id'})
+            : res.status(400).json({status: 400, message: `No public clusters were found by this user`});
+    
+        } else {
+            res.status(400).json({status: 400, message: `User does not exist`});
+        }
+        
         client.close();
     }
     catch(error){
