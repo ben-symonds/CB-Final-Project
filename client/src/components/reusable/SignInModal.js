@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { UserContext } from '../contexts/UserContext';
 
 
-const SignInModal = ({setOpenSignInModal}) => {
+const SignInModal = ({setOpenSignInModal, page}) => {
 
     const {
         
@@ -33,8 +33,20 @@ const SignInModal = ({setOpenSignInModal}) => {
     }
     
     return (
-        <ModalShell>
+        <ModalShell
+            style={
+                page === 'header' ? 
+                {position: 'absolute',
+                top: '34px',
+                width: '300px'
+
+                } 
+                :{
+                    width: '500px'}
+                }
+        >
             <button
+                style={{fontSize: '12px'}}
                 onClick={() => {
                     setOpenSignInModal(false)
                 }}
@@ -66,8 +78,11 @@ const SignInModal = ({setOpenSignInModal}) => {
                     />
                 </div>
                 {errorMsg && <Error> {errorMsg} </Error>}
-                <Submit type='submit' value='sign in'/>
-                <span> forgot your password? </span>
+                <SubmitWrapper> 
+                    <Submit type='submit' value='sign in'/>
+                    <span> forgot your password? </span>
+                </SubmitWrapper> 
+                
             </form>
         </ModalShell>
     )
@@ -81,8 +96,6 @@ const ModalShell = styled.div `
     background-color: white;
     min-width: 300px;
     border: 1px black solid;
-    position: absolute;
-    top: 35px;
 
     button {
         width: 20px;
@@ -99,15 +112,9 @@ const ModalShell = styled.div `
         padding: 3px;
     }
 
-    span {
-        font-size: 12px;
-        position: absolute;
-        right: 10px;
-        bottom: 9px;
-    }
 
     .text-input {
-        width: 190px;
+        width: 70%;
     }
 `
 
@@ -119,7 +126,16 @@ const Error = styled.div `
     margin-left: 7px;
     font-size: 12px;
 `
+const SubmitWrapper = styled.div `
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 10px;
 
+    span {
+        font-size: 12px;
+    }
+`
 const Submit = styled.input `
     background-color: #fff;
     cursor: pointer;

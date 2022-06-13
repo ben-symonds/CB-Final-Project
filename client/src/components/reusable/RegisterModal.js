@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { UserContext } from '../contexts/UserContext';
 
-const RegisterModal = ({setOpenRegisterModal}) => {
+const RegisterModal = ({setOpenRegisterModal, page}) => {
 
     const navigate = useNavigate();
 
@@ -53,8 +53,19 @@ const RegisterModal = ({setOpenRegisterModal}) => {
     }
 
     return (
-        <ModalShell>
-            <button onClick={() => {
+        <ModalShell
+            style={
+                page === 'header' ? 
+                {position: 'absolute',
+                top: '34px',
+                width: '300px'
+
+                } 
+                :{
+                    width: '500px'}
+                }
+        >
+            <button style={{fontSize: '12px'}} onClick={() => {
                 setOpenRegisterModal(false)
             }}
             > 
@@ -105,13 +116,9 @@ const RegisterModal = ({setOpenRegisterModal}) => {
 
 const ModalShell = styled.div `
     display: flex;
-    width: 15vw;
-    min-width: 300px;
     flex-direction: column;
     background-color: white;
     border: 1px black solid;
-    position: absolute;
-    top: 35px;
 
     button {
         width: 20px;
@@ -128,7 +135,7 @@ const ModalShell = styled.div `
     }
 
     .text-input {
-        width: 190px;
+        width: 70%;
     }
 `
 

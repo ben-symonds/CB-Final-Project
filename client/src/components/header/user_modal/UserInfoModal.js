@@ -100,6 +100,7 @@ const ModalShell = styled.div `
 `
 const ExitButton = styled.button `
     width: 20px;
+    font-size: 12px;
     margin-left: 1px;
 `
 

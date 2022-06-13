@@ -3,7 +3,7 @@ import { useState } from 'react';
 import SignInModal from '../reusable/SignInModal';
 import RegisterModal from '../reusable/RegisterModal';
 
-const UserModalButtons = () => {
+const UserModalButtons = ({page}) => {
 
     const [ openSignInModal, setOpenSignInModal ] = useState(false);
     const [ openRegisterModal, setOpenRegisterModal ] = useState(false);
@@ -28,7 +28,7 @@ const UserModalButtons = () => {
 
                 sign in 
             </button>
-            {openSignInModal && <SignInModal setOpenSignInModal={setOpenSignInModal} />}
+            {openSignInModal && <SignInModal page={page} setOpenSignInModal={setOpenSignInModal} />}
             <button 
             
                 onClick={() => { 
@@ -46,7 +46,7 @@ const UserModalButtons = () => {
             >  
                 create an account 
             </button>
-            {openRegisterModal && <RegisterModal setOpenRegisterModal={setOpenRegisterModal} />}
+            {openRegisterModal && <RegisterModal page={page} setOpenRegisterModal={setOpenRegisterModal} />}
         </>
     )
 }

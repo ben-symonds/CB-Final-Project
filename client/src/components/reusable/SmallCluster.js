@@ -110,8 +110,8 @@ const ContentWrapper = styled.div `
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid gray;
-    background-color: white;
+    border: 1px solid lightgray;
+    background-color: #fcfbf7;
     height: 240px;
     width: 200px;
     border-radius: 4px;

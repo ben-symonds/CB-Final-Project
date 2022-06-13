@@ -29,7 +29,7 @@ const Header = () => {
             <div> logo </div>
             <ButtonWrapper>
                 <button onClick={handleExploreOnClick}> explore </button>
-                { !user && <UserModalButtons /> } 
+                { !user && <UserModalButtons page='header' /> } 
                 { user && <button onClick={handleProfileOnClick}> my clusters </button>}
                 { user && <button 
                     onClick={() => {

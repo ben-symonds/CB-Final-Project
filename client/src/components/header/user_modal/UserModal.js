@@ -59,10 +59,11 @@ const ModalShell = styled.div `
     border: 1px black solid;
     background-color: white;
     position: absolute;
-    top: 35px;
+    top: 34px;
 `
 const ExitButton = styled.button `
     width: 20px;
+    font-size: 12px;
     margin-left: 1px;
 `
 
@@ -72,7 +73,6 @@ const Divider = styled.div `
 `
 
 const ProfileButton = styled.button`
-    color: purple;
     width: 88px;
 `
 const UpdateButton = styled.button `

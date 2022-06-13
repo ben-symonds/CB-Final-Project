@@ -115,6 +115,7 @@ const EditCluster = () => {
             : <>
                 {validCluster ? 
                 <ClusterShell>
+                    <TopContentWrapper>
                     <Title> {cluster.title} </Title>
                     <DateWrapper>
                         <Date> Created {cluster.datePublished} by </Date>
@@ -122,19 +123,28 @@ const EditCluster = () => {
                         <Username to={`/user/${cluster.userId}`} > you. </Username>
                         :<Username to={`/user/${cluster.userId}`}> {username}. </Username> }
                     </DateWrapper>
-                    {belongsToCurrentUser && 
-                        <>
-                            <button
-                                onClick={() => {
-                                    setOpenChangeVisibilityModal(!openChangeVisibilityModal)
-                                }}
-                            > 
-                                {visibilitySetting} 
-                            </button> 
+                    <VisibilityWrapper> 
+                        {belongsToCurrentUser && 
+                            <>
+                                <button
+                                    onClick={() => {
+                                        setOpenChangeVisibilityModal(!openChangeVisibilityModal)
+                                    }}
+                                > 
+                                    {visibilitySetting} 
+                                </button> 
 
-                        </>
-                    }
-                    {openChangeVisibilityModal && <VisibilityModal visibility={visibilitySetting} setVisibilitySetting={setVisibilitySetting} setOpenChangeVisibilityModal={setOpenChangeVisibilityModal} />}
+                            </>
+                        }
+                        {openChangeVisibilityModal && 
+                            <VisibilityModal 
+                                visibility={visibilitySetting} 
+                                setVisibilitySetting={setVisibilitySetting} 
+                                setOpenChangeVisibilityModal={setOpenChangeVisibilityModal} 
+                            />
+                        }
+                    </VisibilityWrapper>
+
                     {cluster.description && <Description> {cluster.description} </Description>}
                     {belongsToCurrentUser && 
                         <button
@@ -145,16 +155,18 @@ const EditCluster = () => {
                             edit tags 
                         </button>
                     }
-                    {openEditTags ?
-                        <> <AddTags tags={cluster.tags} setTags={setTags} setUpdateTags={setUpdateTags} /> </>
-                        :<>{ 
-                            cluster.tags.length > 0 && 
-                                cluster.tags.map((tag) => {
-                                    return <Tag key={tag} tagName={tag} />
-                            })
-                        }</>
-                    }   
-                    <Divider />
+                    <TagsWrapper>
+                        {openEditTags ?
+                            <> <AddTags tags={cluster.tags} setTags={setTags} setUpdateTags={setUpdateTags} /> </>
+                            :<>{ 
+                                cluster.tags.length > 0 && 
+                                    cluster.tags.map((tag) => {
+                                        return <Tag key={tag} tagName={tag} />
+                                })
+                            }</>
+                        }
+                     </TagsWrapper>
+                     </TopContentWrapper>
                     {/* {if cluster belongs to user allow option to edit } */}
                     {belongsToCurrentUser && 
                         <ButtonWrapper>
@@ -246,7 +258,7 @@ const EditCluster = () => {
                             }
                         })}
                     </>
-                    : <div> cluster is empty </div>}
+                    : <EmptyContentWrapper> cluster is empty </EmptyContentWrapper>}
                 </ClusterShell>
                 :<>
                     <div> there's nothing here </div>
@@ -261,8 +273,21 @@ const EditCluster = () => {
 
 const Wrapper = styled.div `
     display: flex;
+    width: 100%;
     justify-content: center;
 `
+
+const TopContentWrapper = styled.div `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    border-bottom: 1px lightgray solid; 
+    justify-content: center;
+    height: 150px;
+    background-color: #fcfbf7;
+`
+
 
 const ClusterShell = styled.div `
     display: flex;
@@ -270,8 +295,12 @@ const ClusterShell = styled.div `
     align-items: center;
 `
 
+const EmptyContentWrapper = styled.div `
+    margin-top: 30px;
+`
+
 const Title = styled.h1 `
-    margin: 10px;
+    margin: 20px 0px 8px 0px;
     font-size: 40px;
 `
 
@@ -298,12 +327,15 @@ const Username = styled(Link) `
 const Description = styled.p `
     margin-top: 10px;
 `
-
-const Divider = styled.span `
-    width: 550px;
-    border-bottom: 2px solid #000;
+const TagsWrapper = styled.div `
     margin-top: 10px;
 `
+
+const VisibilityWrapper = styled.div`
+    display: flex;
+`
+    
+
 
 const ButtonWrapper = styled.div `
     margin-top: 10px;

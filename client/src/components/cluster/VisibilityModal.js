@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
 const VisibilityModal = ({visibility, setOpenChangeVisibilityModal, setVisibilitySetting}) => {
 
@@ -18,17 +19,32 @@ const VisibilityModal = ({visibility, setOpenChangeVisibilityModal, setVisibilit
     }
 
     return (    
-        <div>
-            <button
+        <Wrapper>
+            <Exit
                 onClick={() => {
                     setOpenChangeVisibilityModal(false)
                 }}
-            > X </button>
+            > X </Exit>
             {visibility === 'public' ?
-            <button onClick={changeVisibility}> make cluster private </button>
-            :<button onClick={changeVisibility}> make cluster public </button> }
-        </div>
+            <button onClick={changeVisibility}> 
+                make cluster private 
+            </button>
+            :<button onClick={changeVisibility}> 
+                make cluster public 
+            </button> }
+        </Wrapper>
     )
 }
 
+const Wrapper = styled.div `
+    border-left: 1px gray solid;
+    
+`
+const Exit =  styled.button `
+    font-size: 12px;
+
+    &:hover {
+        color: gray;
+    }
+`
 export default VisibilityModal;
