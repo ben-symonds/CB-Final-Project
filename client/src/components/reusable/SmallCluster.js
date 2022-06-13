@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Image } from 'cloudinary-react';
 
 import Tag from './Tag';
 
@@ -25,7 +26,7 @@ const SmallCluster = ({clusterId, title, tags, explore, userId, items, setLoadin
     useEffect(() => {
         const firstImage = items.slice(0).reverse().find((item) => item.type === 'image')
         if(firstImage) {
-            setClusterBackground(firstImage.path);
+            setClusterBackground(firstImage.url);
         }
     })
 
@@ -43,7 +44,7 @@ const SmallCluster = ({clusterId, title, tags, explore, userId, items, setLoadin
                 <ContentWrapper> 
                     {clusterBackground ? 
                     <> 
-                    <Image src={clusterBackground}/>
+                    <Image cloudName={'desecho'} publicId={clusterBackground} />
                     </>
                     :<div> {title} </div>
                     }
@@ -135,12 +136,6 @@ const SmallTag = styled.span `
     border-radius: 5px;
 `
 
-const Image = styled.img `
-    max-height: 100%;
-    max-width: 100%;
-    image-rendering: pixelated;
-
-`
 export default SmallCluster;
 
  // {username && <Link to={`/user/${userId}`}> { username } </Link> }

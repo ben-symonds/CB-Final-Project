@@ -71,7 +71,7 @@ const CreateCluster = () => {
                         <input 
                             type='text' 
                             className='title' 
-                            maxlength='30'
+                            maxLength='30'
                             required
                             onChange={e => {
                                 setTitle(e.target.value);

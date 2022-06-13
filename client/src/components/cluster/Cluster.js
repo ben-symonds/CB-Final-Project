@@ -1,5 +1,5 @@
 import {  useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import VideoItem from './cluster_items/VideoItem';
 import LinkItem from './cluster_items/LinkItem';
@@ -116,10 +116,12 @@ const EditCluster = () => {
                 {validCluster ? 
                 <ClusterShell>
                     <Title> {cluster.title} </Title>
-                    <Date> Created {cluster.datePublished} by </Date>
-                    {belongsToCurrentUser ? 
-                    <span> you. </span>
-                    :<span> {username}. </span> }
+                    <DateWrapper>
+                        <Date> Created {cluster.datePublished} by </Date>
+                        {belongsToCurrentUser ? 
+                        <Username to={`/user/${cluster.userId}`} > you. </Username>
+                        :<Username to={`/user/${cluster.userId}`}> {username}. </Username> }
+                    </DateWrapper>
                     {belongsToCurrentUser && 
                         <>
                             <button
@@ -232,7 +234,7 @@ const EditCluster = () => {
                             } else if(item.type === 'image') {
                                 return <ClusterItemShell>
                                     <ImageItem 
-                                        path={item.path} 
+                                        url={item.url} 
                                         description={item.description} 
                                         date={item.datePublished} 
                                         itemId={item.itemId} 
@@ -273,9 +275,24 @@ const Title = styled.h1 `
     font-size: 40px;
 `
 
+const DateWrapper = styled.div `
+    display: flex;
+    align-items: center;
+`
+
 const Date = styled.p `
     font-size: 12px;
+    margin-right : 5px;
     color: #444
+`
+
+const Username = styled(Link) `
+    font-size: 12px;
+    font-weight: bold;
+
+    &:hover {
+        text-decoration: underline;
+    }
 `
 
 const Description = styled.p `

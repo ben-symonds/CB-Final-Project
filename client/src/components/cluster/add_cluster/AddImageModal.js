@@ -1,7 +1,8 @@
 import { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import  Axios from 'axios';
 import styled from 'styled-components';
+import { Image } from 'cloudinary-react';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
 
@@ -18,28 +19,19 @@ const AddImageModal = () => {
     const [ uploadedFile, setUploadedFile ] = useState(null);
 
 
-    const handleSubmit = async (file) => {
 
+    const handleUpload = (file) => {
+        console.log(file)
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('upload_preset', 'mfyjij9r');
 
-        try{
-            const res = await axios.post('/post-cluster-image', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-
-            const { name, path } = res.data.data;
-
-            setUploadedFile({name, path});
-        } catch(err) { 
-            if(err.response.status === 500) {
-                console.log('Problem with the server')
-            } else {
-                console.log(err.res.data.message);
-            }
-        }
+        Axios.post('https://api.cloudinary.com/v1_1/desecho/image/upload', 
+            formData
+        ).then((response) => {
+            console.log(response);
+            setUploadedFile(response.data);
+        })
     }
 
     const handlePost = async () => {
@@ -49,7 +41,7 @@ const AddImageModal = () => {
             description: description,
             itemId: uuidv4(),
             type: 'image',
-            path: uploadedFile.path,
+            url: uploadedFile.url,
         }
 
         await fetch(`/post-cluster-item/${id}`, {
@@ -67,11 +59,11 @@ const AddImageModal = () => {
 
     return (
         <Wrapper>
-            <StyledForm onSubmit={handleSubmit}>
+            <StyledForm>
                 <FileInput 
                     type='file' 
                     onChange={e => {
-                        handleSubmit(e.target.files[0])
+                        handleUpload(e.target.files[0])
                     }}
                     onClick={() => {
                         setUploadedFile(null);
@@ -80,16 +72,14 @@ const AddImageModal = () => {
             </StyledForm>
             {uploadedFile && 
             <>
-            <ImageWrapper>
-                <img src={uploadedFile.path} />
-            </ImageWrapper>
+            <Image cloudName={'desecho'} publicId={uploadedFile.url}  /> 
             <DescriptionField
                 placeholder='add notes...'
                 onChange= {e => {
                     setDescription(e.target.value);
                 }}
             /> 
-            <SubmitButton onClick={handlePost}> Add Image </SubmitButton>
+            <PostButton onClick={handlePost} > Add Image </PostButton>
             </>
             }
         </Wrapper>
@@ -114,28 +104,13 @@ const StyledForm = styled.form `
     display: flex;
 `
 
-const ImageWrapper = styled.div `
-    display: flex;
-    margin-top: 10px;
-    justify-content: center;
-    align-items: center;
-    height: 400px;
-    width: 400px;
-    overflow: hidden;
-
-    img {
-        max-width:100%;
-        max-height:100%;
-    }
-`
-
 const DescriptionField = styled.textarea `
     margin-top: 10px;
     width: 400px;
     height: 75px;
 `
 
-const SubmitButton = styled.button `
+const PostButton = styled.button `
     margin-top: 10px;
     border: 1px #000 solid;
     padding: 5px;

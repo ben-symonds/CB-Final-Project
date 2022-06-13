@@ -11,6 +11,7 @@ const Explore = () => {
     const [ clusters, setClusters ] = useState(null);
     const [ loading, setLoading ] = useState(true);
     const [ currentTag, setCurrentTag ] = useState(null); 
+    const [ refresh, setRefresh ] = useState(false);
 
     const [ noMatchMessage, setNoMatchMessage ] = useState(null);
 
@@ -18,11 +19,13 @@ const Explore = () => {
         fetch(`/get-public-clusters`)
         .then(res => res.json())
         .then(data => {
+            setNoMatchMessage(null);
             setClusters(data.data);
             console.log(data.data);
+            setRefresh(false);
             setLoading(false);
         })
-    }, []) 
+    }, [refresh]) 
 
     return (
         <Wrapper>
@@ -32,6 +35,13 @@ const Explore = () => {
                 <TopContentWrapper>
                     <SearchBar setClusters={setClusters} setLoading={setLoading} setCurrentTag={setCurrentTag} setNoMatchMessage={setNoMatchMessage} />
                     <FeaturedTags setClusters={setClusters} setLoading={setLoading} setCurrentTag={setCurrentTag} setNoMatchMessage={setNoMatchMessage}/>
+                    <button
+                        onClick={() => {
+                            setRefresh(true);
+                    }}
+                    > 
+                        View All
+                    </button> 
                     {currentTag && <TagDisplay> Public Clusters Tagged <span> {currentTag}  </span> </TagDisplay>}
                 </TopContentWrapper>
                 <ClusterWrapper> 

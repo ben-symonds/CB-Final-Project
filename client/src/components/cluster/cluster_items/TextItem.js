@@ -7,7 +7,7 @@ const TextItem = ({text, date, itemId, belongsToCurrentUser}) => {
         <TextItemShell>
             {belongsToCurrentUser && <DeleteClusterItem itemId={itemId} /> }
             <div> {date} </div>
-            <div> {text} </div>
+            <p style={{whiteSpace: 'pre-wrap'}}> {text} </p>
         </TextItemShell>
     )
 }
