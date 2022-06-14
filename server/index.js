@@ -3,7 +3,6 @@
 // Import the Needed node_modules.
 const express = require('express');
 const morgan = require('morgan');
-const fileUpload = require('express-fileupload');
 
 // Import the Needed Endpoint Handlers
 const {
@@ -20,7 +19,9 @@ const {
     getUsername,
     getPublicClustersById,
     patchClusterVisibility,
-    patchClusterTags
+    patchClusterTags,
+    patchUserInfo,
+    deleteUser
 } = require('./handlers');
 
 express()
@@ -30,7 +31,6 @@ express()
 
     // Any requests for static files will go into the public folder
     .use(express.static('public'))
-    .use(fileUpload())
 
     // Endpoints for Users mongoDB Collection
     .post('/post-user', postUser)
@@ -38,6 +38,9 @@ express()
     //this endpoint retrieves the username asscociated with user id
     .get('/get-username/:id', getUsername)
 
+    .patch('/patch-user-info/:id/:newUsername', patchUserInfo)
+
+    .delete('/delete-user/:id', deleteUser)
 
     //Endpoints for Clusters mongoDB Collection
 
@@ -68,31 +71,12 @@ express()
     //this endpoint retrieves 5 random tags from public clusters
     .get('/get-featured-tags', getFeaturedTags)
 
-    .post('/post-cluster-image', (req, res) => {
-
-        if(req.files === null){
-            res.status(400).json({status: 400, message: 'Could Not Upload File'});
-        }
-
-        const file = req.files.file;
-
-        const path = Date.now() + file.name.replace(/\s/g, '');
-
-        file.mv(`../client/public/images/${path}`, err => {
-            if(err) {
-                console.error(err);
-                res.status(500).json({status: 500, message: 'Could Not Find File Path'});
-            }
-
-            res.status(200).json({status: 200, data: {name: file.name, path: `/images/${path}`} ,  message: 'New Cluster Added to Database'})
-        })
-    })
-
     .get('/get-public-user-clusters/:id', getPublicClustersById)
 
     .patch('/patch-cluster-visibility/:id/:visibility', patchClusterVisibility)
 
     .patch('/patch-cluster-tags/:id/:tags', patchClusterTags)
+
 
     // Endpoint to Catch Unhandled Errors
     .get('*', (req, res) => {

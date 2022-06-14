@@ -44,7 +44,7 @@ const SmallCluster = ({clusterId, title, tags, explore, userId, items, setLoadin
                 <ContentWrapper> 
                     {clusterBackground ? 
                     <> 
-                    <Image cloudName={'desecho'} publicId={clusterBackground} />
+                    <Image style={{ minWidth: '200px'}} cloudName={'desecho'} publicId={clusterBackground} />
                     </>
                     :<div> {title} </div>
                     }
@@ -111,7 +111,7 @@ const ContentWrapper = styled.div `
     align-items: center;
     justify-content: center;
     border: 1px solid lightgray;
-    background-color: #fcfbf7;
+    overflow: hidden;
     height: 240px;
     width: 200px;
     border-radius: 4px;

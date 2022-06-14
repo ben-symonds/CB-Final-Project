@@ -64,7 +64,9 @@ const AddVideoModal = () => {
 
 const StyledForm = styled.form `
     padding: 10px;
-    border: 1px solid black;
+    width: 550px;
+    border: 1px solid lightgray;
+    border-top: none;
 `
 
 export default AddVideoModal;

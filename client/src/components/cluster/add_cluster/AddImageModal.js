@@ -72,14 +72,16 @@ const AddImageModal = () => {
             </StyledForm>
             {uploadedFile && 
             <>
-            <Image cloudName={'desecho'} publicId={uploadedFile.url}  /> 
-            <DescriptionField
-                placeholder='add notes...'
-                onChange= {e => {
-                    setDescription(e.target.value);
-                }}
-            /> 
-            <PostButton onClick={handlePost} > Add Image </PostButton>
+                <ImageWrapper>
+                    <StyledImage cloudName={'desecho'} publicId={uploadedFile.url}  /> 
+                </ImageWrapper>
+                <DescriptionField
+                    placeholder='add notes...'
+                    onChange= {e => {
+                        setDescription(e.target.value);
+                    }}
+                /> 
+                <PostButton onClick={handlePost} > Add Image </PostButton>
             </>
             }
         </Wrapper>
@@ -87,21 +89,41 @@ const AddImageModal = () => {
 }
 
 const Wrapper = styled.div `
-    padding-top: 20px;
+    padding-top: 10px;
     width: 550px;
+    height: 400px;
     display: flex;
     flex-direction: column;
+    border: 1px solid lightgray;
+    border-top: none;
     align-items: center;
 `
 
 const FileInput = styled.input`
-    
+    padding-bottom: 9px;
+
+
 `
 
-const StyledForm = styled.form `
+const StyledForm = styled.form `    
+    
+   
+`
+
+const ImageWrapper = styled.div `
     width: 100%;
-    justify-content: center;
+    height: 505px;
+    align-items: center;
     display: flex;
+    justify-content: center;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+`
+
+const StyledImage = styled(Image)`    
+    max-width: 500px;
+    max-height: 250px;
+
 `
 
 const DescriptionField = styled.textarea `

@@ -49,7 +49,6 @@ const AddLinkModal = () => {
             <div> 
                 <label htmlFor='name'> name:  </label>
                 <NameInput 
-                    required
                     type='text'
                     id='text'
                     placeholder='link name...'
@@ -85,7 +84,9 @@ const AddLinkModal = () => {
 
 const StyledForm = styled.form `
     padding-top: 20px;
-    width: 520px;
+    width: 550px;
+    border: 1px lightgray solid;
+    border-top: none;
 
     label {
         margin: 5px;

@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
+import styled from 'styled-components';
 
 import GlobalStyles from './GlobalStyles';
 import Header from './header/Header';
@@ -16,7 +17,7 @@ import NotFound from './not_found/NotFound';
 
 const App = () => {
   return (
-    <Router>
+    <StyledRouter>
       <GlobalStyles />
       <Header />
       <Routes> 
@@ -27,8 +28,14 @@ const App = () => {
         <Route  path='/explore' element={<Explore />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </Router>
+    </StyledRouter>
   )
 }
+
+const StyledRouter = styled(Router) `
+  min-width: 100vw;
+  padding: 0px 300px;
+  background: blue;
+`
 
 export default App;

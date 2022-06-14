@@ -179,6 +179,7 @@ const EditCluster = () => {
                                 style={
                                     openAddClusterItemModal ? 
                                         {backgroundColor: '#000',
+                                        textDecoration: 'none',
                                         color: '#fff'}
                                         :{backgroundColor: '#fff',
                                         color: '#000'}
@@ -195,6 +196,7 @@ const EditCluster = () => {
                                 style={
                                     openDeleteClusterModal ? 
                                         {backgroundColor: '#000',
+                                        textDecoration: 'none',
                                         color: '#fff'}
                                         :{backgroundColor: '#fff',
                                         color: '#000'}
@@ -206,7 +208,7 @@ const EditCluster = () => {
                         </ButtonWrapper>
                     }
                     {cluster.items.length > 0 ?
-                    <> 
+                    <ClusterItemsWrapper> 
                         {cluster.items.slice(0).reverse().map((item) => {
                             if(item.type === 'playable media') {
                                 return <ClusterItemShell> 
@@ -237,6 +239,8 @@ const EditCluster = () => {
                                         <TextItem 
                                             text={item.text} 
                                             date={item.datePublished} 
+                                            link={item.link}
+                                            header={item.header}
                                             itemId={item.itemId} 
                                             belongsToCurrentUser={belongsToCurrentUser}
                                             key={item.itemId} 
@@ -257,7 +261,7 @@ const EditCluster = () => {
                                 </ClusterItemShell> 
                             }
                         })}
-                    </>
+                    </ClusterItemsWrapper>
                     : <EmptyContentWrapper> cluster is empty </EmptyContentWrapper>}
                 </ClusterShell>
                 :<>
@@ -288,6 +292,11 @@ const TopContentWrapper = styled.div `
     background-color: #fcfbf7;
 `
 
+const ClusterItemsWrapper = styled.div `
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+`
 
 const ClusterShell = styled.div `
     display: flex;
@@ -348,16 +357,13 @@ const ButtonWrapper = styled.div `
 
 const EditButton = styled.button `
     width: 550px;
-    margin-bottom: 15px;
 `
 
 const ClusterItemShell = styled.div `
-    padding: 10px;
     display: flex;
     justify-content: center;
-    width: 700px;
-    margin: 20px;
-    border: 1px solid black;
-    background-color: #f7f4eb;
+    align-items: center;
+    width: 690px;
+    margin: 10px;
 `
 export default EditCluster;

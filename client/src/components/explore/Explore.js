@@ -94,7 +94,7 @@ const ClusterWrapper = styled.div `
 display: flex;
 width: 100vw;
 margin-top: 30px;
-justify-content: space-evenly;
+justify-content: center;
 align-items: center;
 flex-wrap: wrap;
 `

@@ -2,10 +2,13 @@ import { useState, useContext } from 'react';
 import { updateEmail, updateProfile, deleteUser } from 'firebase/auth';
 import { auth } from '../../../firebase-config';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 import { UserContext } from '../../contexts/UserContext';
 
 const UserInfoModal = ({setOpenUserInfoModal, setOpenUserModal}) => {
+
+    const navigate = useNavigate();
 
     const { user } = useContext(UserContext);
 
@@ -19,15 +22,31 @@ const UserInfoModal = ({setOpenUserInfoModal, setOpenUserModal}) => {
             await updateProfile(auth.currentUser, {displayName: newUsername});
             await updateEmail(auth.currentUser, newEmail);
             setOpenUserModal(false);
+
+            await fetch(`/patch-user-info/${user.uid}/${newUsername}`, {
+                method: "PATCH"
+            })
+
         } catch (err) {
             console.log(err.message);
         }
+
+
     }
 
     const handleDelete = async () => {
         try {
-            await deleteUser(user);
+
+            await fetch(`/delete-user/${user.uid}`, {
+                method: "DELETE"
+            })
+
+            await deleteUser(auth.currentUser); 
             setOpenUserModal(false);
+
+            navigate('/');
+            
+
         } catch (err) {
             console.log(err.message);
         }

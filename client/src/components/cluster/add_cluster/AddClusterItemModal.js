@@ -33,7 +33,6 @@ const AddClusterItem = () => {
                 > 
                     add a link 
                 </StyledButton>
-                <Divider />
                 
                 <StyledButton
                     onClick={() => {
@@ -52,9 +51,6 @@ const AddClusterItem = () => {
                 > 
                     upload an image 
                 </StyledButton>
-                <Divider />
-
-                
                 
                 <StyledButton
                     onClick={() => {
@@ -73,8 +69,7 @@ const AddClusterItem = () => {
                 >   
                     add some text 
                 </StyledButton>
-                <Divider />
-                
+
                 <StyledButton
                     onClick={() => {
                         setOpenAddVideoModal(!openAddVideoModal);
@@ -108,10 +103,15 @@ const Wrapper = styled.div `
     display: flex;
     justify-content: center;
     width: 550px;
-    margin-bottom: 10px;
 `
 const StyledButton = styled.button `
-    width: 130px;
+    width: 140px;
+    padding: 5px;
+    border: 1px lightgray solid;
+
+    &:hover {
+        text-decoration: underline;
+    }
 `
 const Divider = styled.div `
     width:1px;

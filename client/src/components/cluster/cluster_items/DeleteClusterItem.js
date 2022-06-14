@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
 import  { ClusterContext } from '../../contexts/ClusterContext';
 
@@ -21,17 +22,17 @@ const DeleteClusterItem = ({itemId}) => {
     }
     
     return (
-        <>
-            <button 
+        <Wrapper>
+            <DeleteButton 
                 onClick={() => {
-                    setOpenDeleteClusterItemModal(true);
+                    setOpenDeleteClusterItemModal(!openDeleteClusterItemModal);
                 }}
             > 
-                X   
-            </button>
+                x
+            </DeleteButton>
             {openDeleteClusterItemModal && 
-                <>
-                    <button onClick={handleDelete}> delete </button>
+                <ModalWrapper>
+                    <button className='delete' onClick={handleDelete}> delete item </button>
                     <button
                         onClick={() => {
                             setOpenDeleteClusterItemModal(false)
@@ -39,11 +40,51 @@ const DeleteClusterItem = ({itemId}) => {
                     > 
                         cancel
                     </button>
-                </>
+                </ModalWrapper>
             }
-        </>
+        </Wrapper>
     )
 }
 
+const Wrapper = styled.div `
+    display: flex;
+    height: 100%;
+    align-items: center;
+`
+
+const DeleteButton = styled.button `
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+    color: white;
+    border-radius: 50%;
+    background-color: black;
+    width: 13px;
+    height: 13px;
+    line-height: 13px;
+    margin-right: 15px;
+
+
+    &:hover
+    {
+        background: darkgray;
+    }
+`
+
+const ModalWrapper = styled.div `
+    button {
+        font-size: 13px;
+
+        &:hover {
+            color: darkgray;
+        }
+
+       
+    }
+    .delete {
+        color: purple;
+    }
+`
 export default DeleteClusterItem;
 

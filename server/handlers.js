@@ -366,6 +366,64 @@ const patchClusterTags = async (req, res) => {
     client.close();
 }
 
+const patchUserInfo = async (req, res) => {
+    const client = new MongoClient(MONGO_URI, options);
+    
+    const id = (req.params.id);
+
+    const newUsername = (req.params.newUsername);
+
+    try {
+        await client.connect();
+        const db = client.db('Cluster');
+
+        result = await db.collection('Users').updateOne(
+                {id: id},
+                {'$set': {username: newUsername}}
+            )
+
+        result
+        ? res.status(200).json({status: 200, message: 'User Updated'})
+        : res.status(400).json({status: 400, message: 'Could Not Update User'});
+    
+        client.close();
+    }
+
+    catch(error){
+        console.log(error.stack)
+    }
+
+    client.close();
+
+}
+
+const deleteUser = async (req, res) => {
+
+    const client = new MongoClient(MONGO_URI, options);
+    
+    const id = (req.params.id);
+
+    try {
+        await client.connect();
+        const db = client.db('Cluster');
+
+        await db.collection('Users').deleteOne({id: id});
+
+        await db.collection('Clusters').deleteMany({userId: id});
+
+        res.status(200).json({status: 200, message: 'User Deleted'});
+    
+        client.close();
+    }
+
+    catch(error){
+        console.log(error.stack)
+    }
+
+    client.close();
+
+}
+
 module.exports = {
     postUser,
     postCluster,
@@ -380,5 +438,7 @@ module.exports = {
     getUsername,
     getPublicClustersById,
     patchClusterVisibility,
-    patchClusterTags
+    patchClusterTags,
+    patchUserInfo, 
+    deleteUser
 }
