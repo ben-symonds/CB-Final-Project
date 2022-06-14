@@ -47,26 +47,30 @@ const AddLinkModal = () => {
     return (
         <StyledForm onSubmit={handleSubmit}>
             <div> 
-                <label htmlFor='name'> name:  </label>
-                <NameInput 
-                    type='text'
-                    id='text'
-                    placeholder='link name...'
-                    onChange={e => {
-                        setName(e.target.value);
-                    }}
-                />
-                <label htmlFor='link'> link: </label>
-                <LinkInput 
-                    required 
-                    type='url'
-                    id='link' 
-                    placeholder='url...'
-                    onChange={e => {
-                        setUrl(e.target.value);
-                    }}  
-                />
-            </div>
+                
+                    <label htmlFor='name'> Name(optional):  </label>
+                    <NameInput 
+                        type='text'
+                        id='name'
+                        placeholder='link name...'
+                        onChange={e => {
+                            setName(e.target.value);
+                        }}
+                    />
+                    </div>
+                <div>
+                    <label htmlFor='link'> Link: </label>
+                    <LinkInput 
+                        required 
+                        type='url'
+                        id='link' 
+                        placeholder='url...'
+                        onChange={e => {
+                            setUrl(e.target.value);
+                        }}  
+                    />
+                </div>
+            
             <div> 
                 <DescriptionField  
                     placeholder='add notes...'
@@ -83,27 +87,40 @@ const AddLinkModal = () => {
 }
 
 const StyledForm = styled.form `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
     padding-top: 20px;
     width: 550px;
+    color: #2E2D2B;
+    height: 400px;
+    border-radius: 6px;
     border: 1px lightgray solid;
     border-top: none;
-
-    label {
-        margin: 5px;
-    }
 `
 
 const LinkInput = styled.input `
-    height: 15px;
+    height: 25px;
+    margin-left: 10px;
+    color: #2E2D2B;
     width: 450px;
+    border: lightgray 1px solid;
+    border-radius: 6px;
     font-size: 13px;
+    padding: 0px 5px;
     font-family: monospace;
 
 `
 
 const NameInput = styled.input `
-    height: 15px;
-    width: 450px;
+    height: 25px;
+    margin-bottom: 20px;
+    width: 200px;
+    padding: 0px 5px;
+    border-radius: 6px;
+    border: lightgray 1px solid;
+    margin-left: 10px;
     font-size: 13px;
     font-family: monospace;
 `

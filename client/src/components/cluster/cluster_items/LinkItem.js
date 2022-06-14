@@ -17,5 +17,11 @@ const LinkItem = ({url, description, date, itemId, belongsToCurrentUser, name}) 
 
 const LinkItemShell = styled.div `
     border: 1px black solid;
+    line-height: 18px;
+
+    &:hover {
+        box-shadow: 0px 1px 7px -3px rgba(102,102,102,0.58);
+
+    }
 `
 export default LinkItem

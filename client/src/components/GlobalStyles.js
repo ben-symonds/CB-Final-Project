@@ -21,7 +21,7 @@ export default createGlobalStyle`
     a, abbr, acronym, address, big, cite, code,
     del, dfn, em, img, ins, kbd, q, s, samp,
     small, strike, strong, sub, sup, tt, var,
-    b, u, i, center,
+    b, u, i, center, button,
     dl, dt, dd, ol, ul, li,
     fieldset, form, label, legend,
     caption, tbody, tfoot, thead, tr, th, td,
@@ -30,7 +30,7 @@ export default createGlobalStyle`
     menu, nav, output, ruby, section, summary,
     time, mark, audio, video {
         margin: 0;
-        font-family: var(--font-heading);
+        font-family: 'Assistant', sans-serif;
         padding: 0;
         border: 0;
         box-sizing: border-box;
@@ -61,7 +61,6 @@ export default createGlobalStyle`
     
     label,
     button {
-        font-family: var(--font-heading);
         font-size: 15px;
         background-color: #fff;
         border: none;

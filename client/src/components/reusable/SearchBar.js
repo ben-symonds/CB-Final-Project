@@ -37,25 +37,35 @@ const SearchBar = ({setClusters, setLoading, setNoMatchMessage, setCurrentTag}) 
     
 
     return (
-        <form>
+        <StyledForm>
             <button onClick={handleSubmit}> <AiOutlineSearch size={20}  /> </button>
             <StyledSearchBar 
                 type='text' 
-                placeholder='search... ' 
+                placeholder='search . . . ' 
                 onChange={e => {
                     setTagSearch(e.target.value);
                 }}
             />
-        </form>
+        </StyledForm>
     )
 }
 
+const StyledForm = styled.form `
+    width: 600px;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+`
+
 const StyledSearchBar = styled.input `
-    width: 400px;
-    font-size: 25px;
+
+    width: 150px;
+    font-style: italic;
+    font-size: 27px;
     border: none;
-    height: 30px;
-    margin-bottom: 20px;
+    color: gray;
+    height: 35px;
+    margin-left: 5px;
 
 `
 

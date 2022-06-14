@@ -74,10 +74,10 @@ const Wrapper = styled.div `
 
 `
 const TopContentWrapper = styled.div `
-display: flex;
-flex-direction: column;
-align-items: center;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 `
 
 const TagDisplay = styled.span `

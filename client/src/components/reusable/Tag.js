@@ -12,12 +12,11 @@ const StyledSpan = styled.span `
     text-align: center;
     padding: 3px 5px;
     margin-left: 5px;
-    background-color: #efe1f5;
     border-radius: 8px;
     border: 1px solid gray;
 
     &:hover {
-        background-color: #f4ebf7;
+        background-color: lightgray;
         cursor: pointer;
     }
 

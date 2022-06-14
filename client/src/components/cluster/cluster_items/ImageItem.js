@@ -26,6 +26,11 @@ const ImageItemShell = styled.div `
     overflow: hidden;
     border: 1px solid lightgray;
     border-radius: 10px;
+    
+    &:hover {
+        box-shadow: 0px 1px 7px -3px rgba(102,102,102,0.58);
+
+    }
 `
 
 const TopContentWrapper = styled.div  `

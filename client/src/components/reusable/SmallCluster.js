@@ -68,7 +68,6 @@ const Wrapper = styled.div `
 
     &:hover {
         transform: scale(1.05);
-
     }
 `
 
@@ -115,6 +114,11 @@ const ContentWrapper = styled.div `
     height: 240px;
     width: 200px;
     border-radius: 4px;
+
+    &:hover {
+        box-shadow: 0px 1px 7px -3px rgba(102,102,102,0.58);
+
+    }
 
 `
 
