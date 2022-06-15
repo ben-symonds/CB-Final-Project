@@ -25,10 +25,10 @@ const AddClusterItem = () => {
                     }}
                     style={
                         openAddLinkModal ?
-                        {backgroundColor: '#000',
+                        {backgroundColor: '#202121',
                         color: '#fff'}
                         : {backgroundColor: '#fff',
-                        color: '#000'}
+                        color: '#202121'}
                     }
                 > 
                     add a link 
@@ -43,10 +43,10 @@ const AddClusterItem = () => {
                     }} 
                     style={
                         openAddImageModal ?
-                        {backgroundColor: '#000',
+                        {backgroundColor: '#202121',
                         color: '#fff'}
                         : {backgroundColor: '#fff',
-                        color: '#000'}
+                        color: '#202121'}
                     }
                 > 
                     upload an image 
@@ -61,13 +61,13 @@ const AddClusterItem = () => {
                     }} 
                     style={
                         openAddTextModal ?
-                        {backgroundColor: '#000',
+                        {backgroundColor: '#202121',
                         color: '#fff'}
                         : {backgroundColor: '#fff',
-                        color: '#000'}
+                        color: '#202121'}
                     }
                 >   
-                    add some text 
+                    add text 
                 </StyledButton>
 
                 <StyledButton
@@ -80,13 +80,13 @@ const AddClusterItem = () => {
                     }}
                     style={
                         openAddVideoModal ?
-                        {backgroundColor: '#000',
+                        {backgroundColor: '#202121',
                         color: '#fff'}
                         : {backgroundColor: '#fff',
-                        color: '#000'}
+                        color: '#202121'}
                     }
                 > 
-                    add a video 
+                    add media 
                 </StyledButton>
                 
             </Wrapper>
@@ -108,15 +108,6 @@ const StyledButton = styled.button `
     width: 140px;
     padding: 5px;
     border: 1px lightgray solid;
-
-    &:hover {
-        text-decoration: underline;
-    }
-`
-const Divider = styled.div `
-    width:1px;
-    background-color: black;
-    height: 100%;
 `
 
 export default AddClusterItem;

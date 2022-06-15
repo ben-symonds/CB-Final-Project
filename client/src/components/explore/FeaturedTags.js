@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import Tag from '../reusable/Tag';
 import LoadingDots from '../reusable/LoadingDots';
 
 const FeaturedTags = ({setClusters, setLoading, setCurrentTag, setNoMatchMessage}) => {
@@ -38,12 +37,12 @@ const FeaturedTags = ({setClusters, setLoading, setCurrentTag, setNoMatchMessage
             {tagsLoading ? 
             <div>  <LoadingDots /> </div>
             :<>
-                    <Tags>  featured tags: </Tags>
+                    <Tags>  featured tags </Tags>
                     <div>
                         {featuredTags.map(tag => {
                             return (
                             <button style={{background: 'inherit'}} key={tag} onClick={() => handleClick(tag)}> 
-                                <Tag key={tag} tagName={tag} />
+                                <Tag key={tag}> {tag} </Tag>
                             </button>
                             )
                         })}
@@ -55,17 +54,34 @@ const FeaturedTags = ({setClusters, setLoading, setCurrentTag, setNoMatchMessage
 
 const Wrapper = styled.div `
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 50px;
     width: 500px;
 `
 const Tags = styled.div `
+    color: gray;
     text-align: center;
     font-style: italic;
+    font-size: 17px;
+    margin-right: 5px;
     margin-bottom: 5px;
     
 `
+
+const Tag = styled.span `
+    border: 1px solid black;
+    font-size: 15px;
+    padding: 1px 7px;
+    border-radius: 12px;
+    font-style: italic;
+    margin-right: 5px;
+
+    &:hover {
+        color: lightgray;
+        border: solid 1px lightgray;
+    }
+`
+
 
 export default FeaturedTags;

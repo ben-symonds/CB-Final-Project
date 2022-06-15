@@ -18,7 +18,7 @@ export default createGlobalStyle`
 
     html, body, div, span, applet, object, iframe,
     h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-    a, abbr, acronym, address, big, cite, code,
+    a, abbr, acronym, address, big, textarea, cite, code,
     del, dfn, em, img, ins, kbd, q, s, samp,
     small, strike, strong, sub, sup, tt, var,
     b, u, i, center, button,
@@ -30,7 +30,8 @@ export default createGlobalStyle`
     menu, nav, output, ruby, section, summary,
     time, mark, audio, video {
         margin: 0;
-        font-family: 'Assistant', sans-serif;
+        color:#202121;
+        font-family: 'Amiri', serif;
         padding: 0;
         border: 0;
         box-sizing: border-box;
@@ -77,7 +78,11 @@ export default createGlobalStyle`
         text-decoration: none;
     }
 
-    input {
+    input, textarea {
         font-size: 12px;
+
+        &:focus {
+            border: 1px solid gray;
+        }
     }
 `;

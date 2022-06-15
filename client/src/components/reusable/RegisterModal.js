@@ -57,7 +57,7 @@ const RegisterModal = ({setOpenRegisterModal, page}) => {
             style={
                 page === 'header' ? 
                 {position: 'absolute',
-                top: '34px',
+                top: '49px',
                 width: '300px'
 
                 } 
@@ -65,7 +65,7 @@ const RegisterModal = ({setOpenRegisterModal, page}) => {
                     width: '500px'}
                 }
         >
-            <button style={{fontSize: '12px'}} onClick={() => {
+            <button style={{fontSize: '10px'}} onClick={() => {
                 setOpenRegisterModal(false)
             }}
             > 
@@ -89,7 +89,7 @@ const RegisterModal = ({setOpenRegisterModal, page}) => {
                         className='text-input'
                         placeholder='Email' 
                         required
-                        type='text'
+                        type='email'
                         onChange={e => {
                             setRegisterEmail(e.target.value);
                         }} 
@@ -152,6 +152,11 @@ const Error = styled.div `
 const Submit = styled.input `
     background-color: #fff;
     cursor: pointer;
+    
+    &:hover {
+        border: 1px solid lightgray;
+        color: lightgray;
+    }
 `
 
 

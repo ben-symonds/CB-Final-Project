@@ -28,25 +28,42 @@ const SmallCluster = ({clusterId, title, tags, explore, userId, items, setLoadin
         if(firstImage) {
             setClusterBackground(firstImage.url);
         }
-    })
+    }, [])
 
     return (
         <Wrapper>
             <TopContentWrapper> 
-                <div className='title-num-items-wrapper'> 
-                    <div> <TitleLink to={`/cluster/${clusterId}`}> {title} </TitleLink>  </div>  
-                    {items.length > 0 && <span> {items.length} items  </span>} 
-                </div>  
-                {explore && <span> created by <UserLink to={`/user/${userId}`}> {username} </UserLink>  </span>}
+                {clusterBackground &&
+                    <>
+                        <div className='title-num-items-wrapper'> 
+                            <div> <TitleLink to={`/cluster/${clusterId}`}> {title} </TitleLink>  </div>  
+                            {items.length > 0 && <NumItems> <span> {items.length} </span> items  </NumItems>} 
+                        </div>  
+                        {explore && 
+                            <span style={{color: 'gray'}}> created by <UserLink to={`/user/${userId}`}> {username} </UserLink>  </span>
+                        }
+                    </>
+                }
             </TopContentWrapper>
             <Link to={`/cluster/${clusterId}`}>
                 {/* */}
                 <ContentWrapper> 
                     {clusterBackground ? 
                     <> 
-                    <Image style={{ minWidth: '200px'}} cloudName={'desecho'} publicId={clusterBackground} />
+                        <Image style={{ minWidth: '250px'}} cloudName={'desecho'} publicId={clusterBackground} />
                     </>
-                    :<div> {title} </div>
+                    :<ClusterFiller>  
+                        <div className='title-num-items-wrapper'> 
+                            <div> <TitleLink to={`/cluster/${clusterId}`}> {title} </TitleLink>  </div>  
+                            {items.length > 0 && 
+                            <div> 
+                                <span> {items.length} </span> items  
+                            </div>} 
+                        </div>  
+                        {explore && 
+                            <span style={{color: 'gray'}}> created by <UserLink to={`/user/${userId}`}> {username} </UserLink>  </span>
+                        }
+                    </ClusterFiller>
                     }
                 </ContentWrapper>
             </Link>
@@ -57,11 +74,24 @@ const SmallCluster = ({clusterId, title, tags, explore, userId, items, setLoadin
     )
 }
 
+const NumItems = styled.span `
+    font-size: 13px;
+    margin-left: 10px;
+    color: gray;
+
+    span {
+
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+`
+
 const Wrapper = styled.div `
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 200px;
+    width: 250px;
     margin-left: 15px;
     margin-right: 15px;
     transition: transform .3s;
@@ -70,15 +100,18 @@ const Wrapper = styled.div `
         transform: scale(1.05);
     }
 `
+const ClusterFiller = styled.div `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+`
 
 const TopContentWrapper = styled.div `
+    height: 33px;
     div {
         font-size: 11px;
         font-style: italic;
-    }
-
-    span{
-        font-size: 12px;
     }
 
     .title-num-items-wrapper {
@@ -89,19 +122,19 @@ const TopContentWrapper = styled.div `
 `
 
 const TitleLink = styled(Link) `
-    font-size: 12px;
+    font-size: 17px;
     &:hover{ 
-        text-decoration: underline;
+        color: lightgray;
     }
 `
 
 const UserLink = styled(Link) `
     font-size: 13px;
-    color: purple;
+    color: #c98ba5;
     font-weight: bold;
 
     &:hover {
-        text-decoration: underline;
+        color: lightgray;
     }
 `
 
@@ -111,8 +144,8 @@ const ContentWrapper = styled.div `
     justify-content: center;
     border: 1px solid lightgray;
     overflow: hidden;
-    height: 240px;
-    width: 200px;
+    height: 310px;
+    width: 250px;
     border-radius: 4px;
 
     &:hover {
@@ -132,10 +165,10 @@ const TagsWrapper = styled.div `
 `
 
 const SmallTag = styled.span `
-    padding: 1px 2px;
+    padding: 2px 3px;
     margin: 3px;
     height: 15px;
-    font-size: 11px;
+    font-size: 12px;
     border: 1px solid black;
     border-radius: 5px;
 `

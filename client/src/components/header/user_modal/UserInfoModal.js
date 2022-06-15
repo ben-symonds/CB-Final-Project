@@ -82,10 +82,10 @@ const UserInfoModal = ({setOpenUserInfoModal, setOpenUserModal}) => {
                         }}
                     />
                 </div>
-                <div> 
-                    <input type='submit' />
+                <> 
+                    <Submit type='submit' />
                     <button onClick={handleDelete}> Delete Account </button>
-                </div>
+                </>
 
             </form>
             <Divider />
@@ -100,10 +100,10 @@ const ModalShell = styled.div `
     width: 15vw;
     min-width: 298px;
     background-color: white;
+    z-index: 10000;
 
     input {
         margin: 3px 5px;
-        border: black 1px solid;
         padding: 3px;
     }
 
@@ -119,13 +119,22 @@ const ModalShell = styled.div `
 `
 const ExitButton = styled.button `
     width: 20px;
-    font-size: 12px;
+    font-size: 10px;
     margin-left: 1px;
 `
 
 const Divider = styled.div `
     width: 100%;
     border-bottom: 1px solid black;
+`
+
+const Submit = styled.input `
+    border: 1px black solid;
+    background-color: #fff;
+    &:hover {
+        border: 1px solid lightgray;
+        color: lightgray;
+    }
 `
 
 export default UserInfoModal;

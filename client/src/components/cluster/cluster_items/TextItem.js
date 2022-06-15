@@ -29,13 +29,12 @@ const TextItemShell = styled.div `
     align-items: center;
     flex-direction: column;
     width: 100%;
-    height: 400px;  
+    max-height: 700px;  
     border: 1px solid lightgray;
     border-radius: 10px;
     padding-bottom: 20px;
     
     p{
-        font-family: 'Assistant', sans-serif;
         line-height: 18px;
         color: black;
         margin-bottom: 15px;
@@ -55,8 +54,8 @@ const TopContentWrapper = styled.div  `
     height: 34px;
     background: white;
     width: 100%;
-    font-size: 13px;
-    padding: 0px 10px;
+    font-size: 15px;
+    padding: 10px 20px;
     color: gray;
     display: flex;
     justify-content: space-between;
@@ -70,12 +69,12 @@ const Body = styled.div `
 
     p {
         margin-top: 15px;
-        line-height: 18px;
+        line-height: 25px;
     }
 
     h1{ 
         margin-top: 15px;
-        font-size: 20px;
+        font-size: 23px;
         text-align: center;
     }
 

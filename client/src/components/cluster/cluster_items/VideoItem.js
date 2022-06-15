@@ -23,7 +23,7 @@ const VideoItem = ({url, description, date, itemId, belongsToCurrentUser}) => {
                             <div> {date} </div>
                         </HoverContentFlexWrapper>  
             </HoverContentWrapper>
-            <ReactPlayer controls='true' url={url} />
+            <ReactPlayer controls={true} url={url} />
             <Description> { description } </Description>
         </VideoItemShell>
     )
@@ -35,8 +35,8 @@ const VideoItemShell = styled.div `
     align-items: center;
     flex-direction: column;
     width: 100%;
-    height: 400px;
-    
+    min-height: 400px;
+    padding: 0px 10px;
     border: 1px solid lightgray;
     border-radius: 10px;
 
@@ -59,15 +59,21 @@ const HoverContentWrapper = styled.div `
 const HoverContentFlexWrapper = styled.div `
     width: 100%;
     height: 100%;
-    font-size: 13px;
+    font-size: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 `
 const Description = styled.div `
-    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 15px;
     display: flex;
     align-items: center;
-    min-height: 30px;
+    min-height: 20px;
+    overflow: auto;
+    padding: 0px 25px;
+    max-height: 250px;
+
 `
 export default VideoItem;

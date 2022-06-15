@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { UserContext } from '../contexts/UserContext';
 
@@ -23,7 +24,7 @@ const DeleteClusterModal = ({setOpenDeleteClusterModal}) => {
     }
 
     return(
-        <>
+        <Wrapper>
             <button onClick={handleDelete}>
                 delete
             </button>
@@ -34,8 +35,20 @@ const DeleteClusterModal = ({setOpenDeleteClusterModal}) => {
             > 
                 cancel
             </button>
-        </>
+        </Wrapper>
     )
 }
+
+const Wrapper = styled.div`
+    display: flex;
+    width: 90px;
+    justify-content: space-between;
+
+    button {
+        &:hover {
+            color: lightgray;
+        }
+    }
+`
 
 export default DeleteClusterModal;

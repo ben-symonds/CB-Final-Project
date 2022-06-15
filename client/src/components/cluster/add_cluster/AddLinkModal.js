@@ -48,18 +48,18 @@ const AddLinkModal = () => {
         <StyledForm onSubmit={handleSubmit}>
             <div> 
                 
-                    <label htmlFor='name'> Name(optional):  </label>
+                    <label htmlFor='name'> Name </label>
                     <NameInput 
                         type='text'
                         id='name'
-                        placeholder='link name...'
+                        placeholder='link name(optional)...'
                         onChange={e => {
                             setName(e.target.value);
                         }}
                     />
                     </div>
                 <div>
-                    <label htmlFor='link'> Link: </label>
+                    <label htmlFor='link'> Link </label>
                     <LinkInput 
                         required 
                         type='url'
@@ -71,16 +71,18 @@ const AddLinkModal = () => {
                     />
                 </div>
             
-            <div> 
+            <DescriptionWrapper> 
+                <label htmlFor='description'> Notes </label>
                 <DescriptionField  
-                    placeholder='add notes...'
+                    id='description'
+                    placeholder='add notes(optional)...'
                     onChange={e => {
                         setDescription(e.target.value);
                     }}  
                 />
-            </div>
+            </DescriptionWrapper>
             <div> 
-                <Submit type='submit' value='Add Link' />
+                <Submit type='submit' value='Add Link to Cluster' />
             </div>
         </StyledForm>
     )
@@ -98,6 +100,10 @@ const StyledForm = styled.form `
     border-radius: 6px;
     border: 1px lightgray solid;
     border-top: none;
+
+    label {
+        font-size: 20px;
+    }
 `
 
 const LinkInput = styled.input `
@@ -108,8 +114,12 @@ const LinkInput = styled.input `
     border: lightgray 1px solid;
     border-radius: 6px;
     font-size: 13px;
+    letter-spacing: 2px;
+    font-family: 'Amiri', serif;
     padding: 0px 5px;
-    font-family: monospace;
+    &:focus {
+        border: 1px solid gray;
+    }
 
 `
 
@@ -118,23 +128,47 @@ const NameInput = styled.input `
     margin-bottom: 20px;
     width: 200px;
     padding: 0px 5px;
+    font-family: 'Amiri', serif;
     border-radius: 6px;
     border: lightgray 1px solid;
     margin-left: 10px;
+    letter-spacing: 1px;
     font-size: 13px;
-    font-family: monospace;
+    &:focus {
+        border: 1px solid gray;
+    }
+`
+const DescriptionWrapper = styled.div `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 const DescriptionField = styled.textarea `
     width: 500px;
     height: 75px;
-    margin-top: 20px;
+    font-size: 14px;
+    resize: none;
+    padding-left: 10px;
+    margin-top: 5px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    letter-spacing: 1px;
 `
 
 const Submit = styled.input `
-    margin-top: 20px;
-    padding: 10px;
+    margin-top: 5px;
+    font-size: 20px;
+    font-family: 'Amiri', serif;
+    margin-top: 5px;
+    border: 1px solid lightgray;
+    background-color: #fff;
+    height: 40px;
     cursor: pointer;
+    border-radius: 5px;
 
+    &:hover {
+        border: 1px solid #202121;
+    }
 `
 export default AddLinkModal;

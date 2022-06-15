@@ -24,7 +24,7 @@ const VisibilityModal = ({visibility, setOpenChangeVisibilityModal, setVisibilit
                 onClick={() => {
                     setOpenChangeVisibilityModal(false)
                 }}
-            > X </Exit>
+            > <div> X </div>  </Exit>
             {visibility === 'public' ?
             <button onClick={changeVisibility}> 
                 make cluster private 
@@ -37,14 +37,34 @@ const VisibilityModal = ({visibility, setOpenChangeVisibilityModal, setVisibilit
 }
 
 const Wrapper = styled.div `
-    border-left: 1px gray solid;
+    height: 15px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+
+    button {
+        font-size: 12px;
+    }
     
 `
 const Exit =  styled.button `
-    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    font-size: 10px;
+    line-height: 10px;
+    height: 15px;
+    width: 15px;
+    margin-left: 5px;
+    border-radius: 50%;
+    color: #fff;
+    background-color: #000;
 
     &:hover {
         color: gray;
     }
+
+
 `
 export default VisibilityModal;

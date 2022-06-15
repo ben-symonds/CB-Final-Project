@@ -20,12 +20,12 @@ const Landing = () => {
     return (
         <Wrapper>
             <ImageWrapper> 
-                <img src='/images/image.webp'/> 
+                <img src='/images/background.png'/> 
             </ImageWrapper>
-            <div> Logo </div>
-            <div> Something about the site </div>
+            <Logo> Cluster </Logo>
+            <Divider/>
+            <Info> CLUSTER is a barebones visual booking-marking and archiving tool. Store and organize images, videos and text with labelled collections called 'clusters'. Share your clusters with others or keep them private. It's up to you. </Info>
             <UserModalButtons page='landing' />
-            <div> Browse Public Clusters </div>
             {  user?.email } 
         </Wrapper>
     )
@@ -39,13 +39,29 @@ const Wrapper = styled.div `
     
 
     img {
-        width: 100%;
+        width: 1110px;
+
     }
 `
 
 const ImageWrapper = styled.div `
-    height: 400px;
+    height: 500px;
     overflow: hidden;
+`
+
+const Logo = styled.div ` 
+    font-size: 100px;
+`
+
+const Info = styled.div `
+    font-size: 20px;
+    width: 800px;
+    margin-top: 20px;
+`
+const Divider = styled.div `
+    height: 10px;
+    width: 1100px;
+    border-bottom: 1px solid black;
 `
 
 export default Landing;

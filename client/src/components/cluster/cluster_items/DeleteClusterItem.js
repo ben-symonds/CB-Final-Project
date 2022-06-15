@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { TiDelete } from 'react-icons/ti';
 
 import  { ClusterContext } from '../../contexts/ClusterContext';
 
@@ -23,13 +24,15 @@ const DeleteClusterItem = ({itemId}) => {
     
     return (
         <Wrapper>
+            <div>
             <DeleteButton 
                 onClick={() => {
                     setOpenDeleteClusterItemModal(!openDeleteClusterItemModal);
                 }}
             > 
-                x
+                <TiDelete size='20' />
             </DeleteButton>
+            </div>
             {openDeleteClusterItemModal && 
                 <ModalWrapper>
                     <button className='delete' onClick={handleDelete}> delete item </button>
@@ -47,43 +50,30 @@ const DeleteClusterItem = ({itemId}) => {
 }
 
 const Wrapper = styled.div `
-    display: flex;
-    height: 100%;
-    align-items: center;
+    display: flex; 
+
 `
 
 const DeleteButton = styled.button `
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 11px;
-    color: white;
-    border-radius: 50%;
-    background-color: black;
-    width: 13px;
-    height: 13px;
-    line-height: 13px;
-    margin-right: 15px;
-
-
+    padding-top: 3px;
+    height: 15px;
+    margin-right: 10px;
     &:hover
     {
-        background: darkgray;
+        color: darkgray;
     }
 `
 
 const ModalWrapper = styled.div `
+
+    height: 10px;
     button {
-        font-size: 13px;
+        font-size: 15px;
+        margin-right: 15px;
 
         &:hover {
             color: darkgray;
         }
-
-       
-    }
-    .delete {
-        color: purple;
     }
 `
 export default DeleteClusterItem;

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 
 import { UserContext } from '../contexts/UserContext';
-import AddTags from '../reusable/AddTags';
+import AddTagsNewCluster from './AddTagsNewCluster';
 import LoadingDots from '../reusable/LoadingDots';
 
 const CreateCluster = () => {
@@ -62,92 +62,213 @@ const CreateCluster = () => {
         {loading ? 
         <div> <LoadingDots /> </div>
         :<>{user ?
-            <FormShell>
-                <h3> new cluster </h3>
-                <AddTags tags={tags} setTags={setTags}/> 
-                <form onSubmit={handleSubmit}> 
-                    <div> 
-                        <label htmlFor='title'> title </label>
-                        <input 
-                            type='text' 
-                            className='title' 
-                            maxLength='30'
-                            required
-                            onChange={e => {
-                                setTitle(e.target.value);
-                            }}
-                        />
-                    </div>
-                    <TextAreaWrapper> 
-                        <label htmlFor='description'> description </label>
-                        <textarea 
-                            className='description'
-                            onChange={e => {
-                                setDescription(e.target.value);
-                            }}
-                        />
-                    </TextAreaWrapper>
-                    <div>
-                        <p>  </p>
-                        <label htmlFor='public'> public </label>
-                        <input 
-                            type='radio' 
-                            value='public' 
-                            name='public' 
-                            className='public' 
-                            defaultChecked
-                            onChange={() => {
-                                setPublicCluster(!publicCluster);
-                                setPrivateCluster(!privateCluster);
-                            }}
-                        />
-                        <label htmlFor='private'> private </label>
-                        <input 
-                            type='radio' 
-                            value='private' 
-                            name='public' 
-                            className='private'
-                            onChange={() => {
-                                setPublicCluster(!publicCluster);
-                                setPrivateCluster(!privateCluster);
-                            }}
-                        />
-                    </div>
-                    <input type='submit' value='create cluster' />
-                </form>
-            </FormShell>
+                <Wrapper>
+                <ContentWrapper>
+                    <h1> New Cluster </h1>
+                    <TagsWrapper>
+                        <AddTagsNewCluster tags={tags} setTags={setTags}/> 
+                    </TagsWrapper>
+                    <FormShell onSubmit={handleSubmit}> 
+                        
+                        <Title> 
+                            <label htmlFor='title'> Title </label>
+                            <input 
+                                placeholder='add title...'
+                                type='text' 
+                                id='title' 
+                                maxLength='30'
+                                required
+                                onChange={e => {
+                                    setTitle(e.target.value);
+                                }}
+                            />
+                        </Title>
+                        <Description> 
+                            <label htmlFor='description'> Description </label>
+                            <textarea 
+                                id='description'
+                                placeholder='add a description(optional)...'
+                                onChange={e => {
+                                    setDescription(e.target.value);
+                                }}
+                            />
+                        </Description>
+                        <Visibility>
+                            <h3> Visibility </h3> 
+                            <RadioButtons> 
+                                <div>
+                                <label htmlFor='public'> Public </label>
+                                <input 
+                                    type='radio' 
+                                    value='Public' 
+                                    id='public' 
+                                    name='visibility'
+                                    defaultChecked
+                                    onChange={() => {
+                                        setPublicCluster(!publicCluster);
+                                        setPrivateCluster(!privateCluster);
+                                    }}
+                                />
+                                </div>
+                                <div>
+                                <label htmlFor='private'> Private </label>
+                                <input 
+                                    type='radio' 
+                                    name='visibility'
+                                    value='Private' 
+                                    id='private'
+                                    onChange={() => {
+                                        setPublicCluster(!publicCluster);
+                                        setPrivateCluster(!privateCluster);
+                                    }}
+                                />
+                                </div>
+                            </RadioButtons>
+                        </Visibility>
+                        <Submit type='submit' value='Create Cluster' />
+                    </FormShell>
+                </ContentWrapper>
+            </Wrapper>
             :<div> there's nothing here </div>
+            
         }</>
         }
         </>
     )
 }
 
-const FormShell = styled.div `
+const Wrapper = styled.div`
+    width 100%;
     display: flex;
+    align-items: center;
+    justify-content: center;
+`
+const ContentWrapper = styled.div `
+    width: 600px;
+    height: 600px;
+    margin-top: 50px;
+    border: 1px lightgray solid;
+    border-radius: 10px;
+    box-shadow: 0px 1px 7px -3px rgba(102,102,102,0.58);
+
+    h1 {
+        font-size: 45px;
+        font-weight: 300;
+        width: 100%;
+        border-radius: 10px;
+        text-align: center;
+        padding: 20px;
+        font-style: italic;
+        border-bottom: 1px lightgray solid;
+    }
+`
+
+const TagsWrapper = styled.div `
+    margin-top: 30px;
+    display: flex;
+    height: 40px;
     flex-direction: column;
     align-items: center;
 
-    form {
-        display: flex;
-        flex-direction: column;
-        border: 1px black solid;
-        padding: 10px;
-    }
-    input {
+`
+const FormShell = styled.form`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
 
-        margin: 15px;
+const Title = styled.div `
+    display: flex;
+    margin-top: 10px;
+    flex-direction: column;
+
+    label {
+        font-size: 30px;
+        margin-right: 15px;
+    }
+
+    input { 
+        font-size: 25px;
+        padding: 5px;
+        padding-left: 10px;
+        font-family: 'Amiri', serif;
+        width: 445px;
+        height: 25px;
+        border: 1px lightgray solid;
+        &:focus {
+            border: 1px solid gray;
+        }
+        border-radius: 5px;
+    }
+`
+
+const Description = styled.div `
+    display: flex;
+    flex-direction: column;
+    margin-top: 35px;
+
+    label {
+        font-size: 30px;
+        margin-right: 15px;
+        padding-top: 4px;
+        margin-bottom: 5px;
     }
 
     textarea {
-        margin-left: 20px;
-        width: 400px;
+        border: 1px solid lightgray;
+        width: 450px;
+        resize: none;
+        line-height: 30px;
+        border-radius: 5px;
+        font-size: 25px;
+        padding: 5px 10px;
+
     }
 `
 
-const TextAreaWrapper = styled.div `
+const Visibility = styled.div `
+    margin-top: 35px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 450px;
+    margin-bottom: 30px;
+
+    h3 {
+        font-size: 30px;
+        font-weight: 300;
+
+    }
 `
+
+const RadioButtons = styled.div `
+    margin-top: 5px;
+    margin-left: 5px;
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+
+    label {
+        font-size: 20px;
+        color: grey;
+    }
+`
+
+const Submit = styled.input `
+    font-size: 25px;
+    font-family: 'Amiri', serif;
+    margin-top: 5px;
+    border: 1px solid lightgray;
+    background-color: #fff;
+    height: px;
+    cursor: pointer;
+    border-radius: 5px;
+
+    &:hover {
+        border: 1px solid #202121;
+    }
+`
+
+
 
 export default CreateCluster; 

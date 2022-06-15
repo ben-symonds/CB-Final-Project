@@ -51,20 +51,20 @@ const SearchBar = ({setClusters, setLoading, setNoMatchMessage, setCurrentTag}) 
 }
 
 const StyledForm = styled.form `
-    width: 600px;
     display: flex;
-    justify-content: center;
     margin-top: 15px;
 `
 
 const StyledSearchBar = styled.input `
 
-    width: 150px;
+    width: 400px;
     font-style: italic;
-    font-size: 27px;
-    border: none;
+    font-size: 29px;
+    padding-left: 10px;
+    border: 1px lightgray solid;
+    border-radius: 8px;
     color: gray;
-    height: 35px;
+    height: 40px;
     margin-left: 5px;
 
 `

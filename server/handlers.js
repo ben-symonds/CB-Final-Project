@@ -205,7 +205,7 @@ const getPublicClustersByTag = async (req, res) => {
 
         result.length
         ? res.status(200).json({status: 200, data: result,  message: 'Public Clusters Retrived By Tag'})
-        : res.status(400).json({status: 400, message: `No public clusters were found with the tag ${tag}`});
+        : res.status(400).json({status: 400, message: tag});
 
         client.close();
     }

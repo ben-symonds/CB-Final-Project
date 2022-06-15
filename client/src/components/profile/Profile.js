@@ -81,7 +81,7 @@ const Profile = () => {
                         {currentUserProfile ? 
                                         <DisplayMsg> Your Clusters </DisplayMsg>
                                         :<DisplayMsg> <span>{username}</span>'s Public Clusters </DisplayMsg>}
-                                        {currentUserProfile  && <Link to='/create'> + Create New Cluster + </Link>}
+                                        {currentUserProfile  && <StyledLink to='/create'> + Create New Cluster + </StyledLink>}
                                         <ClusterWrapper> 
                                             {clusters.map((cluster) => {
                                                 return <SmallCluster items={cluster.items} clusterId={cluster.clusterId} title={cluster.title} key={cluster.clusterId} tags={cluster.tags}/>
@@ -108,17 +108,16 @@ const Wrapper = styled.div `
         height: 20px;
         width: 200px;
         margin-top: 20px;
-        ma
     }
 `
 
 const DisplayMsg = styled.div `
 
     margin-top: 20px;
-    font-size: 20px;
+    font-size: 30px;
     span {
-        font-size: 20px;
-        font-weight: bold;
+        font-size: 30px;
+        font-weight: 600;
     }
 `
 
@@ -130,6 +129,18 @@ const ClusterWrapper = styled.div `
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+`
+
+const StyledLink = styled(Link)`
+    color: #c98ba5;
+    font-size: 23px;
+    margin-top: 10px;
+    cursor: pointer;
+
+    &:hover {
+        color: lightgray;
+    }
+
 `
 
 export default Profile;

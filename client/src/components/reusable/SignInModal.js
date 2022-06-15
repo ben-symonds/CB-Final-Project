@@ -4,6 +4,7 @@ import { auth } from '../../firebase-config';
 import styled from 'styled-components';
 
 import { UserContext } from '../contexts/UserContext';
+import ForgotPasswordModal from './ForgotPasswordModal';
 
 
 const SignInModal = ({setOpenSignInModal, page}) => {
@@ -15,6 +16,7 @@ const SignInModal = ({setOpenSignInModal, page}) => {
     const [ loginEmail, setLoginEmail ] = useState(null);
     const [ loginPassword, setLoginPassword ] = useState(null);
     const [ errorMsg, setErrorMsg ]  = useState(null);
+    const [ openForgotPasswordModal, setOpenForgotPasswordModal ] = useState(false);
 
     const handleLogin = async e => {
         e.preventDefault();
@@ -37,7 +39,7 @@ const SignInModal = ({setOpenSignInModal, page}) => {
             style={
                 page === 'header' ? 
                 {position: 'absolute',
-                top: '34px',
+                top: '49px',
                 width: '300px'
 
                 } 
@@ -46,7 +48,7 @@ const SignInModal = ({setOpenSignInModal, page}) => {
                 }
         >
             <button
-                style={{fontSize: '12px'}}
+                style={{fontSize: '10px'}}
                 onClick={() => {
                     setOpenSignInModal(false)
                 }}
@@ -60,7 +62,7 @@ const SignInModal = ({setOpenSignInModal, page}) => {
                         className= 'text-input'
                         placeholder='Email' 
                         required
-                        type='text' 
+                        type='email' 
                         onChange={e => {
                             setLoginEmail(e.target.value);
                         }} 
@@ -80,10 +82,16 @@ const SignInModal = ({setOpenSignInModal, page}) => {
                 {errorMsg && <Error> {errorMsg} </Error>}
                 <SubmitWrapper> 
                     <Submit type='submit' value='sign in'/>
-                    <span> forgot your password? </span>
+                    <span
+                        onClick={() => {
+                            setOpenForgotPasswordModal(!openForgotPasswordModal)
+                        }}
+                        style={{cursor: 'pointer'}}
+                    > 
+                    forgot your password? </span>
                 </SubmitWrapper> 
-                
             </form>
+            {openForgotPasswordModal && <ForgotPasswordModal />}
         </ModalShell>
     )
 }
@@ -108,7 +116,6 @@ const ModalShell = styled.div `
     
     input {
         margin: 3px 5px;
-        border: black 1px solid;
         padding: 3px;
     }
 
@@ -139,6 +146,12 @@ const SubmitWrapper = styled.div `
 const Submit = styled.input `
     background-color: #fff;
     cursor: pointer;
+    border: 1px solid black;
+
+    &:hover {
+        border: 1px solid lightgray;
+        color: lightgray;
+    }
 `
 
 export default SignInModal;

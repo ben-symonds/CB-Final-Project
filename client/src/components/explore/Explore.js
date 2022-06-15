@@ -34,16 +34,19 @@ const Explore = () => {
             :<>
                 <TopContentWrapper>
                     <SearchBar setClusters={setClusters} setLoading={setLoading} setCurrentTag={setCurrentTag} setNoMatchMessage={setNoMatchMessage} />
+                
                     <FeaturedTags setClusters={setClusters} setLoading={setLoading} setCurrentTag={setCurrentTag} setNoMatchMessage={setNoMatchMessage}/>
-                    <button
-                        onClick={() => {
-                            setRefresh(true);
-                    }}
-                    > 
-                        View All
-                    </button> 
-                    {currentTag && <TagDisplay> Public Clusters Tagged <span> {currentTag}  </span> </TagDisplay>}
+
+                    <ViewAllButton
+                            onClick={() => {
+                                setRefresh(true);
+                                setCurrentTag(null);
+                        }}
+                        > 
+                            View All
+                    </ViewAllButton> 
                 </TopContentWrapper>
+                {currentTag && <TagDisplay> Public Clusters Tagged <span> {currentTag}  </span> </TagDisplay>}
                 <ClusterWrapper> 
                     {clusters.map((cluster) => {
                         return <SmallCluster 
@@ -57,7 +60,8 @@ const Explore = () => {
                         />
                     })}
                 </ClusterWrapper>
-                {noMatchMessage && <div> {noMatchMessage} </div>}
+                {noMatchMessage && 
+                    <NoMatch> No public clusters were found with the tag <span style={{fontWeight: 'bold'}}> {noMatchMessage} </span>  </NoMatch>}
                 
             </>
             }
@@ -68,16 +72,30 @@ const Explore = () => {
 
 const Wrapper = styled.div `
     display: flex;
+    align-items: center;
     flex-direction: column;
-    align-items: center; 
-
-
 `
+
 const TopContentWrapper = styled.div `
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: 100%;
+    border-bottom: 1px solid lightgray;
+    box-shadow: 0px 1px 7px -3px rgba(102,102,102,0.58);
+
+`
+
+const ViewAllButton = styled.button `
+    color: #c98ba5;
+    font-style: italic;
+    font-size: 17px;
+    margin-bottom: 10px;
+
+    &:hover {
+        color: lightgray;
+    }
 `
 
 const TagDisplay = styled.span `
@@ -89,13 +107,23 @@ const TagDisplay = styled.span `
     }
 `
 
+const NoMatch = styled.div `
+    font-size: 30px;
+    margin-top: 20px;
+    color: gray;
+    span {
+        font-weight: bold;
+        font-size: 30px;
+        color: gray;
+    }
+`
 
 const ClusterWrapper = styled.div `
-display: flex;
-width: 100vw;
-margin-top: 30px;
-justify-content: center;
-align-items: center;
-flex-wrap: wrap;
+    display: flex;
+    width: 100vw;
+    margin-top: 30px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 `
 export default Explore;

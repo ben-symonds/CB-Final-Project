@@ -13,7 +13,6 @@ import AddClusterItemModal from './add_cluster/AddClusterItemModal';
 import DeleteClusterModal from './DeleteClusterModal';
 import VisibilityModal from './VisibilityModal';
 import AddTags from '../reusable/AddTags';
-import Tag from '../reusable/Tag';
 import LoadingDots from '../reusable/LoadingDots';
 
 const EditCluster = () => {
@@ -107,6 +106,16 @@ const EditCluster = () => {
             setUpdateTags(false);     
     }, [tags])
 
+    const changeVisibility = async () => {
+        await fetch(`/patch-cluster-visibility/${id}/${visibilitySetting === 'public' ? 'private' : 'public'}`, {
+            method: "PATCH"
+        }) .then(res => res.json())
+        .then(data => {
+            setVisibilitySetting(visibilitySetting === 'public' ? 'private' : 'public');
+        })
+
+        
+    }
 
     return (
         <Wrapper>
@@ -116,61 +125,69 @@ const EditCluster = () => {
                 {validCluster ? 
                 <ClusterShell>
                     <TopContentWrapper>
-                    <Title> {cluster.title} </Title>
-                    <DateWrapper>
-                        <Date> Created {cluster.datePublished} by </Date>
-                        {belongsToCurrentUser ? 
-                        <Username to={`/user/${cluster.userId}`} > you. </Username>
-                        :<Username to={`/user/${cluster.userId}`}> {username}. </Username> }
-                    </DateWrapper>
-                    <VisibilityWrapper> 
-                        {belongsToCurrentUser && 
-                            <>
-                                <button
+                        <Title> {cluster.title} </Title>
+                        <DateWrapper>
+                            <Date> Created {cluster.datePublished} by </Date>
+                            {belongsToCurrentUser ? 
+                            <Username to={`/user/${cluster.userId}`} > you. </Username>
+                            :<Username to={`/user/${cluster.userId}`}> {username}. </Username> }
+                        </DateWrapper>
+                        {cluster.description && <Description> {cluster.description} </Description>}
+                            {belongsToCurrentUser && 
+                                <VisibilityWrapper> 
+                                    <div style={{fontWeight: '600'}}> {visibilitySetting} </div>
+                                    <VisibilityButton
+                                        onClick={changeVisibility}
+                                    > 
+                                        change cluster visibility
+                                    </VisibilityButton>
+                            
+                                </VisibilityWrapper>}
+                        <TagsWrapper>
+                            {belongsToCurrentUser && 
+                                <EditTags
                                     onClick={() => {
-                                        setOpenChangeVisibilityModal(!openChangeVisibilityModal)
+                                        setOpenEditTags(!openEditTags);
                                     }}
                                 > 
-                                    {visibilitySetting} 
-                                </button> 
-
-                            </>
-                        }
-                        {openChangeVisibilityModal && 
-                            <VisibilityModal 
-                                visibility={visibilitySetting} 
-                                setVisibilitySetting={setVisibilitySetting} 
-                                setOpenChangeVisibilityModal={setOpenChangeVisibilityModal} 
-                            />
-                        }
-                    </VisibilityWrapper>
-
-                    {cluster.description && <Description> {cluster.description} </Description>}
-                    {belongsToCurrentUser && 
-                        <button
-                            onClick={() => {
-                                setOpenEditTags(!openEditTags);
-                            }}
-                        > 
-                            edit tags 
-                        </button>
-                    }
-                    <TagsWrapper>
-                        {openEditTags ?
-                            <> <AddTags tags={cluster.tags} setTags={setTags} setUpdateTags={setUpdateTags} /> </>
-                            :<>{ 
-                                cluster.tags.length > 0 && 
-                                    cluster.tags.map((tag) => {
-                                        return <Tag key={tag} tagName={tag} />
-                                })
-                            }</>
-                        }
-                     </TagsWrapper>
-                     </TopContentWrapper>
+                                    edit tags 
+                                </EditTags>
+                            }
+                            {openEditTags ?
+                                <div> <AddTags tags={cluster.tags} setTags={setTags} setUpdateTags={setUpdateTags} /> </div>
+                                :<div> { 
+                                    cluster.tags.length > 0 && 
+                                        cluster.tags.map((tag) => {
+                                            return <Tag> {tag} </Tag>
+                                    })
+                                }</div>
+                            }
+                        </TagsWrapper>
+                        {belongsToCurrentUser && 
+                            <DeleteWrapper>
+                                <DeleteButton
+                                        onClick={() =>{
+                                            setOpenDeleteClusterModal(!openDeleteClusterModal);
+                                            setOpenAddClusterItemModal(false);
+                                        }} 
+                                        // style={
+                                        //     openDeleteClusterModal ? 
+                                        //         {backgroundColor: '#000',
+                                        //         textDecoration: 'none',
+                                        //         color: '#fff'}
+                                        //         :{backgroundColor: '#fff',
+                                        //         color: '#000'}
+                                        // }
+                                    >
+                                        delete cluster 
+                                    </DeleteButton>
+                                {openDeleteClusterModal && <DeleteClusterModal setOpenDeleteClusterModal={setOpenDeleteClusterModal} setUpdate={setUpdate} />}
+                            </DeleteWrapper>
+                        }    
+                    </TopContentWrapper>
                     {/* {if cluster belongs to user allow option to edit } */}
                     {belongsToCurrentUser && 
                         <ButtonWrapper>
-                            
                             <EditButton 
                                 onClick={()=> { 
                                     setOpenAddClusterItemModal(!openAddClusterItemModal);
@@ -178,33 +195,16 @@ const EditCluster = () => {
                                 }}
                                 style={
                                     openAddClusterItemModal ? 
-                                        {backgroundColor: '#000',
+                                        {backgroundColor: '#202121',
                                         textDecoration: 'none',
                                         color: '#fff'}
                                         :{backgroundColor: '#fff',
-                                        color: '#000'}
+                                        color: '#202121'}
                                 }
                             >  
                                 + add to cluster + 
                             </EditButton>
                             {openAddClusterItemModal && <AddClusterItemModal setUpdate={setUpdate} setOpenAddClusterItemModal={setOpenAddClusterItemModal} />}
-                            <EditButton 
-                                onClick={() =>{
-                                    setOpenDeleteClusterModal(!openDeleteClusterModal);
-                                    setOpenAddClusterItemModal(false);
-                                }} 
-                                style={
-                                    openDeleteClusterModal ? 
-                                        {backgroundColor: '#000',
-                                        textDecoration: 'none',
-                                        color: '#fff'}
-                                        :{backgroundColor: '#fff',
-                                        color: '#000'}
-                                }
-                            >
-                                - delete cluster - 
-                            </EditButton>
-                            {openDeleteClusterModal && <DeleteClusterModal setOpenDeleteClusterModal={setOpenDeleteClusterModal} setUpdate={setUpdate} />}
                         </ButtonWrapper>
                     }
                     {cluster.items.length > 0 ?
@@ -286,16 +286,28 @@ const TopContentWrapper = styled.div `
     flex-direction: column;
     align-items: center;
     width: 100vw;
-    border-bottom: 1px lightgray solid; 
+    border-bottom: 1px solid lightgray;
+    box-shadow: 0px 1px 7px -3px rgba(102,102,102,0.58);
     justify-content: center;
-    height: 150px;
-    background-color: #fcfbf7;
+    z-index: 4000;
 `
 
 const ClusterItemsWrapper = styled.div `
     display: flex;
+    flex-direction: column;
     justify-content: center;
     flex-wrap: wrap;
+`
+
+const VisibilityButton = styled.button `
+    color: #c98ba5;
+    font-size: 17px;
+    cursor: pointer;
+    margin: 0px 5px;
+
+    &:hover {
+        lightgray;
+    }
 `
 
 const ClusterShell = styled.div `
@@ -309,53 +321,106 @@ const EmptyContentWrapper = styled.div `
 `
 
 const Title = styled.h1 `
-    margin: 20px 0px 8px 0px;
-    font-size: 40px;
+    margin: 20px 0px 6px;
+    font-style: italic;
+    font-size: 55px;
+    font-weight: 300;
 `
 
 const DateWrapper = styled.div `
+    font-size: 12px;
     display: flex;
     align-items: center;
+
+
 `
 
 const Date = styled.p `
-    font-size: 12px;
+    font-size: 14px;
     margin-right : 5px;
-    color: #444
+    color: gray;
 `
 
+const DeleteButton = styled.button `
+    width: 100px;
+    
+` 
+
 const Username = styled(Link) `
-    font-size: 12px;
+    font-size: 13px;
     font-weight: bold;
+    color: #c98ba5;
 
     &:hover {
-        text-decoration: underline;
+        color: lightgray;
     }
 `
 
 const Description = styled.p `
-    margin-top: 10px;
+    font-size: 23px;
+    margin: 10px;
 `
 const TagsWrapper = styled.div `
+    display: flex;
+    height: 20px;
+    align-items: center;
+    margin-bottom: 10px;
     margin-top: 10px;
 `
 
+const Tag = styled.span `
+    border: 1px solid black;
+    font-size: 15px;
+    padding: 1px 7px;
+    border-radius: 12px;
+    font-style: italic;
+    margin-right: 5px;
+`
+
+
 const VisibilityWrapper = styled.div`
     display: flex;
+    align-items: center;
+`
+
+const DeleteWrapper = styled.div`
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+
+    button {
+        &:hover {
+            color: lightgray;
+        }
+    }
 `
     
 
 
 const ButtonWrapper = styled.div `
-    margin-top: 10px;
     display: flex;
-    width: 302px;
+    width: 550px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 4;
+`
+
+const EditTags = styled.button`
+    font-size: 16px;
+    color: #c98ba5;
+    margin-right: 5px;
+
+    &:hover {
+        color: lightgray;
+    }
 `
 
 const EditButton = styled.button `
+    padding: 10px;
+    font-size: 20px;
     width: 550px;
 `
 

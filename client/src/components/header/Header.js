@@ -26,7 +26,7 @@ const Header = () => {
 
     return (
         <HeaderShell>
-            <div> logo </div>
+            <div style={{fontSize: '35px'}}> Cluster </div>
             <ButtonWrapper>
                 <button onClick={handleExploreOnClick}> explore </button>
                 { !user && <UserModalButtons page='header' /> } 
@@ -37,10 +37,10 @@ const Header = () => {
                     }}
                     style={
                         openUserModal ? 
-                            {backgroundColor: '#000',
+                            {backgroundColor: '#202121',
                             color: '#fff'}
                             :{backgroundColor: '#fff',
-                            color: '#000'}
+                            color: '#202121'}
                         }
                     >
                         {user.displayName } 
@@ -52,19 +52,29 @@ const Header = () => {
 }
 
 const HeaderShell = styled.div`
-    padding: 1em;
+    padding-left: 20px;
+    padding-right: 20px;
     display: flex;
+    padding-top: 20px;
+    padding-bottom: 20px;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid gray;
 `
 
 const ButtonWrapper = styled.div `
-    width: 15vw;
+    width: 100px;
     min-width: 300px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    button {
+        padding: 4px;
+        &:hover {
+            color: lightgray;
+        }
+    }
 `
 
 export default Header;

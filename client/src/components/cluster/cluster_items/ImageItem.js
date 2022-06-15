@@ -21,11 +21,13 @@ const ImageItem = ({url, description, date, itemId, belongsToCurrentUser}) => {
 const ImageItemShell = styled.div `
     display: flex;
     flex-direction: column;
+    width: 100%;
     align-items: center;
     border: 1px solid lightgray;
     overflow: hidden;
     border: 1px solid lightgray;
     border-radius: 10px;
+    padding-bottom: 15px;
     
     &:hover {
         box-shadow: 0px 1px 7px -3px rgba(102,102,102,0.58);
@@ -37,8 +39,7 @@ const TopContentWrapper = styled.div  `
     height: 30px;
     background: white;
     width: 100%;
-    font-size: 13px;
-    padding: 0px 10px;
+    padding: 0px 20px;
     color: gray;
     display: flex;
     justify-content: space-between;
@@ -46,9 +47,8 @@ const TopContentWrapper = styled.div  `
 `
 
 const StyledImage = styled(Image) `
-    max-height: 600px;
-    min-height: 400px;
-    margin: 0px 23px;
+    width: 630px;
+    margin: 0px 23px 10px 23px;
 `
 
 const Date = styled.div `
@@ -56,10 +56,12 @@ const Date = styled.div `
 `
 
 const Description = styled.div `
-    font-size: 13px;
+    font-size: 15px;    
     display: flex;
     align-items: center;
-    min-height: 30px;
+    overflow: auto;
+    max-height: 150px;
+    padding: 0px 25px;
 `
 
 export default ImageItem;

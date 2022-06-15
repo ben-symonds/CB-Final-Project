@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-const AddTags = ({tags, setTags, setUpdateTags}) => {
+const AddTagsNewCluster = ({tags, setTags, setUpdateTags}) => {
 
     const [ newTag, setNewTag ] = useState('');
 
@@ -33,7 +33,7 @@ const AddTags = ({tags, setTags, setUpdateTags}) => {
                 <Submit type='submit' value='+'/>
                 <Text 
                     type='text'
-                    placeholder='add tag...'
+                    placeholder='add tags...'
                     value={newTag}
                     onChange={e => {
                         setNewTag(e.target.value)
@@ -52,61 +52,70 @@ const AddTags = ({tags, setTags, setUpdateTags}) => {
     )
 }
 
-export default AddTags;
-
 const Wrapper = styled.div`
-    display: flex;
-    align-items: center;    
+display: flex;
+align-items: center;
 `
 const StyledForm = styled.form `
-    margin-right: 10px;
+    margin-right: 5px;
     display: flex;
 `
 
 
 const TagsWrapper = styled.div `
-    display: flex;
+display: flex;
 `
 
 const TagWrapper = styled.span `
     display: flex;
     align-items: center;
+    margin-left: 20px;
 
     button{
         font-size: 20px;
-        display: flex;
         margin-right: 5px;
-        margin-left: 10px;
+
+        &:hover {
+            color: lightgray;
+        }
     }
 `
 
 const Tag = styled.span `
+    font-size: 20px;
     border: 1px solid black;
-    font-size: 15px;
-    padding: 7px 9px;
+    padding-top: 5px;
+    text-align: center;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 5px;
     font-style: italic;
-    border-radius: 12px;
-    margin-right: 5px;
 `
 
 const Text = styled.input `
     width: 70px;
+    font-size: 16px;
     border: 1px lightgray solid;
-    font-size: 15px;
-    height: 20px;
-    font-family: 'Amiri', serif;
     padding: 2px 10px;
+    font-family: 'Amiri', serif;
+    line-height: 15px;
     color: gray;
-    border-radius: 10px;
+    border-radius: 5px;
+    &:focus {
+        border: 1px solid gray;
+    }
 `
 
 const Submit = styled.input `
-    font-size: 20px;
+    margin-right: 5px;
     background: white;
+    font-size: 20px;
     border: none;
     cursor: pointer;
-
+    
     &:hover {
         color: lightgray;
     }
 `
+
+export default AddTagsNewCluster;
